@@ -14,7 +14,13 @@ type ButtonProps = {
   circle?: boolean;
 };
 
-const Button = ({ children, style, round, circle, onPress }: ButtonProps) => {
+const CustomButton = ({
+  children,
+  style,
+  round,
+  circle,
+  onPress,
+}: ButtonProps) => {
   const getFinalStyle = () => {
     var finalStyle = {};
     finalStyle = { ...finalStyle, ...appComponentsDefaultStyles.button };
@@ -36,4 +42,4 @@ const Button = ({ children, style, round, circle, onPress }: ButtonProps) => {
     </TouchableOpacity>
   );
 };
-export default Button;
+export default CustomButton;
