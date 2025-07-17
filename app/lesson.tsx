@@ -1,4 +1,5 @@
-import Button from "@/components/Button";
+import Button from "@/components/CustomButton";
+import CustomModal from "@/components/CustomModal";
 import { useState } from "react";
 import { Image, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
@@ -28,19 +29,19 @@ export default function Lesson() {
   const [imagesOrder, setImagesOrder] = useState(
     [0, 1, 2, 3].sort(() => Math.random() - 0.5)
   );
-  const correctAnswer = Math.floor(Math.random() * 4);
+  const [rightOrWrong, setRightOrWrong] = useState("none");
+  const [correctAnswer, setCorrectAnswer] = useState(
+    Math.floor(Math.random() * 4)
+  );
   const checkAnswer = (answer: number) => {
-    console.log(
-      `you chose ${pictures[answer].eng} and the correctAnswer is ${pictures[correctAnswer].eng}`
-    );
     if (answer == correctAnswer) right();
     else wrong();
   };
   const right = () => {
-    alert("oh yeah");
+    setRightOrWrong("right");
   };
   const wrong = () => {
-    alert("oh no the answer is " + pictures[correctAnswer].eng);
+    setRightOrWrong("wrong");
   };
   return (
     <View
@@ -78,6 +79,7 @@ export default function Lesson() {
           </Button>
         )}
       />
+      {rightOrWrong != "none" && <CustomModal></CustomModal>}
     </View>
   );
 }

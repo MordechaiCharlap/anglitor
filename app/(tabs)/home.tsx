@@ -1,4 +1,4 @@
-import Button from "@/components/Button";
+import Button from "@/components/CustomButton";
 import { useUser } from "@/context/UserContext";
 import { router } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
