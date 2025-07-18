@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 
-export default function LeaderboardScreen() {
+export default function ProfileScreen() {
   return (
     <View
       style={{
@@ -9,7 +9,7 @@ export default function LeaderboardScreen() {
         alignItems: "center",
       }}
     >
-      <Text>Leaderboard</Text>
+      <Text>UserProfile</Text>
     </View>
   );
 }
