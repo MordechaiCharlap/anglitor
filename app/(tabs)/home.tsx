@@ -3,12 +3,9 @@ import { useUser } from "@/context/UserContext";
 import { router } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 
-export default function Home() {
+export default function HomeScreen() {
   const lessons = Array.from({ length: 20 }, (_, i) => `Lesson ${i + 1}`);
   const { user, setUser } = useUser();
-  // useEffect(() => {
-  //   setUser();
-  // }, []);
   if (user) {
     return (
       <ScrollView contentContainerStyle={{ alignItems: "center" }}>
