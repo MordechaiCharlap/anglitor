@@ -1,6 +1,6 @@
 import CustomButton from "@/components/CustomButton";
-import { useAuth } from "@/context/AuthContext";
-import { useUser } from "@/context/UserContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useUser } from "@/contexts/UserContext";
 import { Redirect } from "expo-router";
 import { Text, View } from "react-native";
 
