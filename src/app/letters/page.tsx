@@ -2,12 +2,11 @@
 
 import { Screen, Container, Card, Text, Button } from "@/components";
 import { useTheme } from "@/contexts/ThemeContext";
+import { speakEnglish } from "@/lib/voice";
 import { themes } from "@/styles/theme";
-import { useSpeak } from "@/lib/voice";
 
 export default function LettersPage() {
   const { theme } = useTheme();
-  const speakEnglish = useSpeak();
   const currentTheme = themes[theme];
 
   // Mock progress data - replace with real data later
@@ -105,9 +104,14 @@ export default function LettersPage() {
                 <Card className="text-center hover:shadow-lg transition-all duration-200 transform hover:scale-105">
                   <div className="py-2">
                     {/* Letter Display */}
-                    <Text variant="h1" className="mb-3 text-4xl font-bold">
-                      {letter}
-                    </Text>
+                    <div className="flex flex-row justify-center gap-0.5">
+                      <Text variant="h1" className="mb-3 text-4xl font-bold">
+                        {letter}
+                      </Text>
+                      <Text variant="h1" className="mb-3 text-4xl font-bold">
+                        {letter.toLowerCase()}
+                      </Text>
+                    </div>
 
                     {/* Progress Bar */}
                     <div
