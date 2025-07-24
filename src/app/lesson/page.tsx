@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Screen, Container, Card, Text, Button, Modal } from "@/components";
 import { useTheme } from "@/contexts/ThemeContext";
 import { themes } from "@/styles/theme";
-import { useSpeak, playCelebrationSound } from "@/lib/voice";
+import { useSpeak, playCelebrationSound, speakHebrew } from "@/lib/voice";
 
 interface Exercise {
   id: number;
@@ -17,7 +17,6 @@ interface Exercise {
 export default function LessonPage() {
   const { theme } = useTheme();
   const currentTheme = themes[theme];
-  const speakHebrew = useSpeak("he-IL");
   const speakEnglish = useSpeak("en-US");
   const playCelebration = playCelebrationSound();
 
@@ -72,31 +71,23 @@ export default function LessonPage() {
     return exercises.sort(() => Math.random() - 0.5);
   };
 
-  const [exercises] = useState<Exercise[]>(generateExercises());
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [score, setScore] = useState(0);
   const [showFloatingTab, setShowFloatingTab] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-
-  const voices = speechSynthesis.getVoices();
-  console.log(voices);
   const currentExercise = exercises[currentExerciseIndex];
 
-  // Auto-play letter sound when exercise loads
   useEffect(() => {
-    if (currentExercise) {
-      const timer = setTimeout(() => {
-        speakEnglish(currentExercise.letter);
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [currentExercise, speakEnglish]);
+    const ex = generateExercises();
+    setExercises(ex);
+  }, []);
 
   const handleLetterClick = () => {
     setShowFloatingTab(true);
-    speakEnglish(currentExercise.letter);
+    speakHebrew(currentExercise.hebrewTranslation);
 
     // Hide floating tab after 3 seconds
     setTimeout(() => {
@@ -135,6 +126,15 @@ export default function LessonPage() {
     setIsComplete(false);
   };
 
+  if (exercises.length === 0) {
+    return (
+      <Screen>
+        <Container className="py-8 text-center">
+          <Text variant="h2">Loading lesson...</Text>
+        </Container>
+      </Screen>
+    );
+  }
   if (isComplete) {
     return (
       <Screen>
@@ -175,8 +175,6 @@ export default function LessonPage() {
   return (
     <Screen>
       <Container className="py-4 h-screen flex flex-col">
-        <button onClick={() => speakHebrew("תפוח")}>🔊 עברית</button>
-
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div>
