@@ -84,3 +84,15 @@ export function playCelebrationSound() {
     });
   }, []);
 }
+export async function speakHebrew(text: string) {
+  const response = await fetch("/api/speak", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
+
+  const blob = await response.blob();
+  const url = URL.createObjectURL(blob);
+  const audio = new Audio(url);
+  audio.play();
+}
