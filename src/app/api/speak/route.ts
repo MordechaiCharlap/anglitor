@@ -9,21 +9,80 @@ const client = new textToSpeech.TextToSpeechClient({
   keyFilename: credsPath,
 });
 
+// export async function POST(req: NextRequest) {
+//   try {
+//     const body = await req.json();
+//     const { text } = body;
+
+//     if (!text) {
+//       return NextResponse.json({ error: "Missing text" }, { status: 400 });
+//     }
+
+//     const [response] = await client.synthesizeSpeech({
+//       input: { text },
+//       voice: {
+//         languageCode: "he-IL",
+//         ssmlGender: "FEMALE",
+//       },
+//       audioConfig: {
+//         audioEncoding: "MP3",
+//       },
+//     });
+
+//     const audioBuffer = response.audioContent;
+
+//     if (!audioBuffer) {
+//       return NextResponse.json({ error: "No audio content" }, { status: 500 });
+//     }
+
+//     return new NextResponse(Buffer.from(audioBuffer), {
+//       status: 200,
+//       headers: {
+//         "Content-Type": "audio/mpeg",
+//         "Content-Length": String(audioBuffer.length),
+//       },
+//     });
+//   } catch (err) {
+//     console.error("TTS Error:", err);
+//     return NextResponse.json({ error: "Server error" }, { status: 500 });
+//   }
+// }
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { text } = body;
+    const { text, lang = "he" } = body;
 
     if (!text) {
       return NextResponse.json({ error: "Missing text" }, { status: 400 });
     }
 
-    const [response] = await client.synthesizeSpeech({
-      input: { text },
-      voice: {
+    const voiceSettings: Record<
+      "he" | "en",
+      {
+        languageCode: string;
+        ssmlGender:
+          | "FEMALE"
+          | "MALE"
+          | "NEUTRAL"
+          | "SSML_VOICE_GENDER_UNSPECIFIED";
+      }
+    > = {
+      he: {
         languageCode: "he-IL",
         ssmlGender: "FEMALE",
       },
+      en: {
+        languageCode: "en-US",
+        ssmlGender: "FEMALE",
+      },
+    };
+
+    const voice = voiceSettings[lang as "he" | "en"] ?? voiceSettings["he"];
+
+    const [response] = await client.synthesizeSpeech({
+      input: { text },
+      voice,
       audioConfig: {
         audioEncoding: "MP3",
       },
