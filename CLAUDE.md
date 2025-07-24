@@ -68,7 +68,28 @@ The app should be seamless, addictive, animated as much as possible, and full of
 
 ## Lesson Types
 
-Same as before (Word Bank, Fill in the Blank, Match Words, Scrabble, Multiplayer Games)
+### Letter-Based Learning (Foundation)
+
+Before users learn to translate words, they must first learn to read. The app follows a structured approach:
+
+#### 1. Letter Recognition & Phonics
+- **Letter Introduction**: Each English letter with visual and audio
+- **Letter Sounds**: Phonetic pronunciation for each letter
+- **Letter Combinations**: Common combinations (th, ch, sh, etc.)
+- **Progress Tracking**: Percentage completion for all letter sounds
+
+#### 2. Word Building Progression
+- Start with simple 3-letter words using learned letters
+- Progress to more complex words as letter knowledge increases
+- **Prerequisites**: Users must know letter sounds before word lessons
+
+### Interactive Lesson Types
+
+- **Word Bank**: Drag and drop words to correct categories
+- **Fill in the Blank**: Complete sentences with missing words
+- **Match Words**: Connect English words with Hebrew translations
+- **Scrabble**: Build words using available letters
+- **Multiplayer Games**: Compete with other learners
 
 > ✅ Note: All UI and logic will be implemented for the web with drag/tap interactions replaced by mouse/touch equivalents as needed.
 
@@ -78,78 +99,54 @@ _(No changes needed — these are logic and content design rules that apply to b
 
 ## App Styling System
 
-### Design System: Dark Purple Gradient
+### Design System: Clean Dark/Light Mode
 
-The app uses a consistent Dark Purple Gradient design system throughout all pages and components.
-
-#### Color Palette
-
-- **Background**: Linear gradient (`#1a1a2e` → `#16213e` → `#0f3460`)
-- **Card Background**: `#3d4278`
-- **Primary Button**: `#8B5CF6`
-- **Secondary Button**: `#EC4899`
-- **Text Primary**: `#FFFFFF`
-- **Text Secondary**: `#A78BFA`
-- **Border Color**: `#2c3057`
-
-#### Design Principles
-
-- **Responsive Layout**: Use responsive containers for web layout (flex/grid)
-- **Card Style**: Cards use `backgroundColor: #3d4278`, `border: 0.3px solid #2c3057`, border radius
-- **Typography**: Use theme-based font sizes and consistent text colors
-- **Shadows**: Subtle `box-shadow` for depth
-- **Border Radius**: 12px for cards, 16px for layout containers, 20px+ for buttons
-
-#### File Structure
-
-- **Styles**: `styles/theme.ts` - Global theme constants
-- **Components**: `components/` - All reusable UI components
-- **Usage**: Import theme and components; never hardcode styles
-
-### Available Components
-
-All components follow the Dark Purple Gradient design system and should be imported from the `components/` folder:
-
-#### Core Components
-
-- **Card** - Div with proper padding, shadow, border radius
-- **Button** - Themed primary/secondary variants
-- **Text** - Themed typography components
-- **Input** - Themed form input field
-- **Avatar** - Circular profile image
-- **FloatingButton** - Sticky floating action button
-- **BottomNavigation** - Bottom navigation bar (for responsive web layout)
-
-#### Layout Components
-
-- **Screen** - Full-height section wrapper with gradient background
-- **Container** - Inner responsive div with padding
+The app supports both dark and light modes with a clean, minimalistic design inspired by modern applications for a premium feel.
 
 ### Development Rules
 
-#### Component Creation Rule
+#### Styling Technology
+- **Tailwind CSS** - Use Tailwind classes for all styling
+- **Theme Context** - Use `useTheme()` hook for dark/light mode switching
+- **Theme System** - Import theme objects from `styles/theme.ts`
+- **Responsive Layout** - Use responsive containers (flex/grid) for web layout
+- **Components Folder** - All reusable UI components in `components/` folder
 
-**MANDATORY**: When adding a new component, you MUST:
+#### Component Reuse Rule
+**MANDATORY**: Always reuse existing components from the `components/` folder instead of recreating UI elements in each page. This eliminates code duplication and maintains consistency.
 
-1. Add it to the component list in this CLAUDE.md
-2. Follow the Dark Purple Gradient design system
-3. Import from `styles/theme.ts` for all tokens (colors, spacing)
-4. Never hardcode colors or design tokens
+#### Available Components
+Import these reusable components from `components/`:
+- **Card** - Clean container with subtle borders and shadows (theme-aware)
+- **Button** - Primary/secondary button variants (theme-aware)
+- **Text** - Typography components with proper hierarchy (theme-aware)
+- **Input** - Form input fields (theme-aware)
+- **Avatar** - User profile images
+- **Screen** - Full-height page wrapper (theme-aware background)
+- **Container** - Responsive content wrapper
+- **ThemeToggle** - Dark/light mode toggle button
+
+#### Design Principles
+- **Clean & Minimalistic** - Remove unnecessary elements, focus on content
+- **Premium Feel** - Subtle shadows, proper spacing, clean typography
+- **Theme Support** - Support both dark and light modes seamlessly
+- **Consistent Spacing** - Use Tailwind spacing scale consistently
+- **Automatic Theme Detection** - Respects user's system preference by default
 
 #### Styling Rules
-
-1. **Always use the theme**: Import colors from `styles/theme.ts`
-2. **Use container padding**: Apply margin/padding in layout wrappers
-3. **Consistent borders**: All cards/components use theme border color
-4. **Typography hierarchy**: Follow primary/secondary rules
-5. **No inline styles**: Use styled-components, Tailwind, or CSS modules
+1. **No inline styles** - Use Tailwind classes only, never inline styles
+2. **Use theme context** - Always use `useTheme()` hook and theme objects for colors
+3. **Use container padding** - Apply margin/padding in layout wrappers (Screen, Container)
+4. **Consistent borders** - All cards/components use theme-aware border colors
+5. **Typography hierarchy** - Use Text component with proper color props (primary/secondary/muted)
 
 #### Component Usage
-
 - Import all UI components from `components/`
-- Use `<Screen>` wrapper for each main view
-- Use `<Card>` for content blocks
-- Apply global theme
-- Follow consistent design patterns
+- Use `<Screen>` wrapper for each main view (handles theme background)
+- Use `<Card>` for content blocks (automatically theme-aware)
+- Use `<Container>` for responsive content areas
+- Use `<ThemeToggle>` for theme switching functionality
+- Always import `useTheme()` when using theme-dependent styling
+- Follow consistent design patterns across all pages
 
 ---
