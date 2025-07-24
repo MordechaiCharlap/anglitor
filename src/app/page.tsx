@@ -1,103 +1,266 @@
-import Image from "next/image";
+"use client";
+
+import {
+  Screen,
+  Container,
+  Card,
+  Text,
+  Button,
+  Avatar,
+  ThemeToggle,
+} from "@/components";
+import { useTheme } from "@/contexts/ThemeContext";
+import { themes } from "@/styles/theme";
+import Link from "next/link";
+import { useSpeak } from "@/lib/voice";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { theme } = useTheme();
+  const currentTheme = themes[theme];
+  const speakEnglish = useSpeak();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // Mock user data - replace with real data later
+  const letterProgress = 0; // 0% - starting fresh
+  const wordsLearned = 0;
+  const totalXP = 0;
+
+  return (
+    <Screen>
+      <Container className="py-8">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <Text variant="h1" className="mb-2">
+              Learning Dashboard
+            </Text>
+            <Text variant="body" color="secondary">
+              Keep up the great work! 🎉
+            </Text>
+          </div>
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <Avatar src="" alt="User" size="md" />
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        {/* Learning Progress Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {/* Letters Progress */}
+          <Link href="/letters">
+            <Card className="text-center cursor-pointer hover:shadow-lg transition-shadow">
+              <div className="mb-4">
+                <Text variant="h3" className="text-blue-400 mb-2">
+                  📖 Letters
+                </Text>
+                <Text variant="small" color="muted">
+                  Letter sounds learned
+                </Text>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-3">
+                <div
+                  className="bg-blue-500 h-3 rounded-full transition-all duration-300"
+                  style={{ width: `${letterProgress}%` }}
+                ></div>
+              </div>
+
+              <Text variant="h2" className="text-blue-400 mb-1">
+                {letterProgress}%
+              </Text>
+              <Text variant="caption" color="muted">
+                0 of 26 letters mastered
+              </Text>
+            </Card>
+          </Link>
+
+          {/* Words Learned */}
+          <Card className="text-center cursor-pointer hover:shadow-lg transition-shadow">
+            <div className="mb-4">
+              <Text variant="h3" className="text-green-400 mb-2">
+                📝 Words
+              </Text>
+              <Text variant="small" color="muted">
+                Words in your vocabulary
+              </Text>
+            </div>
+
+            <Text variant="h2" className="text-green-400 mb-1">
+              {wordsLearned}
+            </Text>
+            <Text variant="caption" color="muted">
+              Ready to start learning!
+            </Text>
+          </Card>
+
+          {/* Total XP */}
+          <Card className="text-center cursor-pointer hover:shadow-lg transition-shadow">
+            <div className="mb-4">
+              <Text variant="h3" className="text-purple-400 mb-2">
+                ⭐ Total XP
+              </Text>
+              <Text variant="small" color="muted">
+                Experience points earned
+              </Text>
+            </div>
+
+            <Text variant="h2" className="text-purple-400 mb-1">
+              {totalXP.toLocaleString()}
+            </Text>
+            <Text variant="caption" color="muted">
+              Level 1 - Let's begin!
+            </Text>
+          </Card>
+        </div>
+
+        {/* Games Section */}
+        <Card>
+          <div className="flex items-center justify-between mb-6">
+            <Text variant="h3">🎮 Games & Activities</Text>
+            <Button variant="secondary" className="text-sm">
+              View All Games
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Word Bank Game */}
+            <div
+              className={`p-4 ${
+                theme === "dark" ? "bg-gray-900" : "bg-gray-50"
+              } rounded-lg cursor-pointer hover:shadow-md transition-shadow`}
+            >
+              <div className="text-center">
+                <Text variant="h3" className="text-blue-400 mb-2">
+                  🏦
+                </Text>
+                <Text variant="small" className="mb-2">
+                  Word Bank
+                </Text>
+                <Text variant="h3" className="text-blue-400 mb-1">
+                  1,240
+                </Text>
+                <Text variant="caption" color="muted">
+                  Best Score
+                </Text>
+              </div>
+            </div>
+
+            {/* Fill in the Blank */}
+            <div
+              className={`p-4 ${
+                theme === "dark" ? "bg-gray-900" : "bg-gray-50"
+              } rounded-lg cursor-pointer hover:shadow-md transition-shadow`}
+            >
+              <div className="text-center">
+                <Text variant="h3" className="text-green-400 mb-2">
+                  📝
+                </Text>
+                <Text variant="small" className="mb-2">
+                  Fill Blanks
+                </Text>
+                <Text variant="h3" className="text-green-400 mb-1">
+                  890
+                </Text>
+                <Text variant="caption" color="muted">
+                  Best Score
+                </Text>
+              </div>
+            </div>
+
+            {/* Match Words */}
+            <div
+              className={`p-4 ${
+                theme === "dark" ? "bg-gray-900" : "bg-gray-50"
+              } rounded-lg cursor-pointer hover:shadow-md transition-shadow`}
+            >
+              <div className="text-center">
+                <Text variant="h3" className="text-purple-400 mb-2">
+                  🔗
+                </Text>
+                <Text variant="small" className="mb-2">
+                  Match Words
+                </Text>
+                <Text variant="h3" className="text-purple-400 mb-1">
+                  675
+                </Text>
+                <Text variant="caption" color="muted">
+                  Best Score
+                </Text>
+              </div>
+            </div>
+
+            {/* Scrabble */}
+            <div
+              className={`p-4 ${
+                theme === "dark" ? "bg-gray-900" : "bg-gray-50"
+              } rounded-lg cursor-pointer hover:shadow-md transition-shadow`}
+            >
+              <div className="text-center">
+                <Text variant="h3" className="text-orange-400 mb-2">
+                  🔤
+                </Text>
+                <Text variant="small" className="mb-2">
+                  Scrabble
+                </Text>
+                <Text variant="h3" className="text-orange-400 mb-1">
+                  1,567
+                </Text>
+                <Text variant="caption" color="muted">
+                  Best Score
+                </Text>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          <Card>
+            <Text variant="h3" className="mb-4">
+              🎯 Start Learning
+            </Text>
+            <div className="flex items-center justify-between">
+              <div>
+                <Text variant="body" className="mb-2">
+                  Begin with vowel sounds (A, E, I, O, U)
+                </Text>
+                <Text variant="caption" color="muted">
+                  20 exercises • 10-15 minutes
+                </Text>
+              </div>
+              <Link href="/lesson">
+                <Button variant="primary">Start Lesson</Button>
+              </Link>
+            </div>
+          </Card>
+
+          <Card>
+            <Text variant="h3" className="mb-4">
+              🏆 Recent Achievements
+            </Text>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="text-2xl">🎉</div>
+                <div>
+                  <Text variant="small">Letter Master</Text>
+                  <Text variant="caption" color="muted">
+                    Learned all vowel sounds
+                  </Text>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="text-2xl">⚡</div>
+                <div>
+                  <Text variant="small">Speed Reader</Text>
+                  <Text variant="caption" color="muted">
+                    Read 20 words in 60 seconds
+                  </Text>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </Container>
+    </Screen>
   );
 }
