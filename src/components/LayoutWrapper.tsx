@@ -9,8 +9,8 @@ interface LayoutWrapperProps {
 export function LayoutWrapper({ children }: LayoutWrapperProps) {
   return (
     <div className="min-h-screen flex">
-      {/* Theme toggle - fixed top left */}
-      <div className="fixed top-4 left-4 z-50">
+      {/* Theme toggle - fixed top left - only on desktop */}
+      <div className="hidden lg:block fixed top-4 left-4 z-50">
         <ThemeToggle />
       </div>
       
