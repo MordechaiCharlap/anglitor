@@ -4,6 +4,7 @@ import { Screen, Container, Card, Text, Button } from "@/components";
 import { useTheme } from "@/contexts/ThemeContext";
 import { speakEnglish } from "@/lib/voice";
 import { themes } from "@/styles/theme";
+import Link from "next/link";
 
 export default function LettersPage() {
   const { theme } = useTheme();
@@ -81,6 +82,11 @@ export default function LettersPage() {
       <Container className="py-8">
         {/* Header */}
         <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <Link href="/">
+              <Button variant="secondary">← Go Back</Button>
+            </Link>
+          </div>
           <Text variant="h1" className="mb-2">
             📖 Letters & Sounds
           </Text>
