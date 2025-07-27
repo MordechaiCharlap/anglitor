@@ -7,7 +7,6 @@ import {
   Text,
   Button,
   Avatar,
-  ThemeToggle,
 } from "@/components";
 import { useTheme } from "@/contexts/ThemeContext";
 import { themes } from "@/styles/theme";
@@ -33,7 +32,11 @@ export default function ProfilePage() {
             <Text variant="h1" className="mb-2">
               👤 Profile
             </Text>
-            <ThemeToggle />
+            <div className="lg:hidden">
+              <Link href="/settings">
+                <Button variant="secondary">⚙️ Settings</Button>
+              </Link>
+            </div>
           </div>
           <Text variant="body" color="secondary">
             Track your learning progress and achievements
