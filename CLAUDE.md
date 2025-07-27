@@ -66,6 +66,17 @@ The app should be seamless, addictive, animated as much as possible, and full of
 - User profile data is fetched after authentication
 - Project is modularized with separate folders for contexts, components, and utilities
 
+#### Component Organization Rule
+
+**Key principle:** Break down complex pages into smaller, manageable component files for better organization, even if components are only used on that specific page.
+
+**Component locations:** 
+- **Page-specific components:** Create `components/[page-name]/` folder for components that are specific to that page, including an `index.ts` file that exports all components from that folder
+- **Reusable components:** Put components that can be used across multiple pages in the main `components/` folder
+- **When to create components:** Break down pages when there are too many lines, when mapping the same component repeatedly, or when trying to break down complex components/pages
+
+The page file (`src/app/[page-name]/page.tsx`) imports from the appropriate folder based on component scope.
+
 ## Lesson Types
 
 ### Letter-Based Learning (Foundation)
