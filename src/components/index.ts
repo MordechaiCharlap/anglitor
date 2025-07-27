@@ -7,4 +7,7 @@ export { Screen } from './Screen';
 export { Container } from './Container';
 export { ThemeToggle } from './ThemeToggle';
 export { Modal } from './Modal';
+export { Sidebar } from './Sidebar';
+export { BottomTabs } from './BottomTabs';
+export { LayoutWrapper } from './LayoutWrapper';
 export { default as LanguageRoadWidget } from './LanguageRoadWidget';
