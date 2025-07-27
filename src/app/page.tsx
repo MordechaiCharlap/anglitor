@@ -4,8 +4,8 @@ import {
   Screen,
   Container,
   Text,
-  LanguageRoadWidget,
 } from "@/components";
+import { LanguageRoad } from "@/components/home";
 
 export default function Home() {
   return (
@@ -23,7 +23,7 @@ export default function Home() {
 
         {/* Language Road Widget - Full Layout */}
         <div className="w-full max-w-4xl mx-auto">
-          <LanguageRoadWidget isCompact={false} />
+          <LanguageRoad isCompact={false} />
         </div>
       </Container>
     </Screen>
