@@ -79,161 +79,259 @@ export default function LettersPage() {
 
   return (
     <Screen>
-      <Container className="py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <Link href="/">
-              <Button variant="secondary">← Go Back</Button>
-            </Link>
-          </div>
-          <Text variant="h1" className="mb-2">
-            📖 Letters & Sounds
-          </Text>
-          <Text variant="body" color="secondary">
-            Master each letter sound to unlock word lessons
-          </Text>
-        </div>
-
-        {/* Alphabet Section */}
-        <div className="mb-12">
-          <Text variant="h2" className="mb-6">
-            English Alphabet
-          </Text>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
-            {Object.entries(letterProgress).map(([letter, progress]) => (
-              <div
-                key={letter}
-                onClick={() => handleLetterClick(letter)}
-                className="cursor-pointer"
-              >
-                <Card className="text-center hover:shadow-lg transition-all duration-200 transform hover:scale-105">
-                  <div className="py-2">
-                    {/* Letter Display */}
-                    <div className="flex flex-row justify-center gap-0.5">
-                      <Text variant="h1" className="mb-3 text-4xl font-bold">
-                        {letter}
-                      </Text>
-                      <Text variant="h1" className="mb-3 text-4xl font-bold">
-                        {letter.toLowerCase()}
-                      </Text>
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div
-                      className={`w-full ${
-                        theme === "dark" ? "bg-gray-700" : "bg-gray-200"
-                      } rounded-full h-2 mb-2`}
-                    >
-                      <div
-                        className={`${getProgressColor(
-                          progress
-                        )} h-2 rounded-full transition-all duration-300`}
-                        style={{ width: `${progress}%` }}
-                      ></div>
-                    </div>
-
-                    {/* Progress Percentage */}
-                    <Text
-                      variant="caption"
-                      className={getProgressTextColor(progress)}
-                    >
-                      {progress}%
-                    </Text>
-                  </div>
-                </Card>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Special Combinations Section */}
-        <div>
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <Text variant="h2" className="mb-2">
-                Special Letter Combinations
+      {/* Desktop Layout - Non-scrollable */}
+      <div className="hidden lg:flex lg:flex-col lg:h-screen">
+        {/* Desktop Header */}
+        <div className={`${theme === "dark" ? "bg-gray-900 border-gray-700" : "bg-white border-gray-200"} border-b`}>
+          <Container className="py-6">
+            <div className="text-center">
+              <Text variant="h1" className="mb-2">
+                Let's learn English! 📚
               </Text>
-              <Text variant="body" color="secondary">
-                Master these common English sound patterns
+              <Text variant="body" color="secondary" className="mb-4">
+                Get to know the English writing system
               </Text>
+              <Link href="/lesson">
+                <Button variant="primary" className="px-6 py-2">
+                  LEARN THE LETTERS
+                </Button>
+              </Link>
             </div>
-          </div>
+          </Container>
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {specialCombinations.map(({ combo, progress, sound }) => (
-              <div
-                key={combo}
-                onClick={() => handleSpecialComboClick(combo, sound)}
-                className="cursor-pointer"
-              >
-                <Card className="text-center hover:shadow-lg transition-all duration-200 transform hover:scale-105">
-                  <div className="py-4">
-                    {/* Combination Display */}
-                    <Text variant="h2" className="mb-2 text-3xl font-bold">
-                      {combo}
-                    </Text>
+        {/* Desktop Content - Fits in remaining space */}
+        <Container className="flex-1 flex flex-col justify-center max-w-full px-6 py-8">
+          {/* Alphabet Section */}
+          <div className="mb-6">
+            <div className="grid grid-cols-10 xl:grid-cols-13 gap-3">
+              {Object.entries(letterProgress).map(([letter, progress]) => (
+                <div
+                  key={letter}
+                  onClick={() => handleLetterClick(letter)}
+                  className="cursor-pointer"
+                >
+                  <Card className="text-center hover:shadow-lg transition-all duration-200 transform hover:scale-105 aspect-square flex items-center justify-center">
+                    <div className="w-full px-1">
+                      {/* Letter Display */}
+                      <div className="flex flex-row justify-center gap-0.5 mb-1">
+                        <Text variant="h2" className="text-3xl lg:text-4xl font-bold">
+                          {letter}
+                        </Text>
+                        <Text variant="h2" className="text-3xl lg:text-4xl font-bold">
+                          {letter.toLowerCase()}
+                        </Text>
+                      </div>
 
-                    {/* Sound Description */}
-                    <Text variant="small" color="muted" className="mb-4">
-                      sounds like "{sound}"
-                    </Text>
-
-                    {/* Progress Bar */}
-                    <div
-                      className={`w-full ${
-                        theme === "dark" ? "bg-gray-700" : "bg-gray-200"
-                      } rounded-full h-3 mb-3`}
-                    >
+                      {/* Progress Bar */}
                       <div
-                        className={`${getProgressColor(
-                          progress
-                        )} h-3 rounded-full transition-all duration-300`}
-                        style={{ width: `${progress}%` }}
-                      ></div>
-                    </div>
+                        className={`w-full ${
+                          theme === "dark" ? "bg-gray-700" : "bg-gray-200"
+                        } rounded-full h-1 mb-1`}
+                      >
+                        <div
+                          className={`${getProgressColor(
+                            progress
+                          )} h-1 rounded-full transition-all duration-300`}
+                          style={{ width: `${progress}%` }}
+                        ></div>
+                      </div>
 
-                    {/* Progress Info */}
-                    <div className="flex items-center justify-between">
+                      {/* Progress Percentage */}
                       <Text
                         variant="caption"
-                        className={getProgressTextColor(progress)}
+                        className={`text-xs ${getProgressTextColor(progress)}`}
                       >
                         {progress}%
                       </Text>
-                      <Text variant="caption" color="muted">
-                        {progress >= 80
-                          ? "Mastered"
-                          : progress >= 60
-                          ? "Good"
-                          : progress >= 40
-                          ? "Learning"
-                          : "Starting"}
-                      </Text>
                     </div>
-                  </div>
-                </Card>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Practice Section */}
-        <Card className="mt-12">
-          <div className="text-center py-6">
-            <Text variant="h3" className="mb-4">
-              🎯 Ready to Practice?
-            </Text>
-            <Text variant="body" color="secondary" className="mb-6">
-              Choose letters you want to focus on and start practicing!
-            </Text>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="primary">Practice Weak Letters</Button>
-              <Button variant="secondary">Review All Letters</Button>
+                  </Card>
+                </div>
+              ))}
             </div>
           </div>
-        </Card>
-      </Container>
+
+          {/* Special Combinations Section */}
+          <div>
+            <Text variant="h3" className="mb-4 text-center">
+              Special Characters
+            </Text>
+            <div className="grid grid-cols-8 lg:grid-cols-10 xl:grid-cols-13 gap-3">
+              {specialCombinations.map(({ combo, progress, sound }) => (
+                <div
+                  key={combo}
+                  onClick={() => handleSpecialComboClick(combo, sound)}
+                  className="cursor-pointer"
+                >
+                  <Card className="text-center hover:shadow-lg transition-all duration-200 transform hover:scale-105 aspect-square flex items-center justify-center">
+                    <div className="w-full px-1">
+                      {/* Combination Display - Same as letter cards */}
+                      <div className="flex flex-row justify-center gap-0.5 mb-1">
+                        <Text variant="h2" className="text-3xl lg:text-4xl font-bold">
+                          {combo}
+                        </Text>
+                      </div>
+
+                      {/* Progress Bar */}
+                      <div
+                        className={`w-full ${
+                          theme === "dark" ? "bg-gray-700" : "bg-gray-200"
+                        } rounded-full h-1 mb-1`}
+                      >
+                        <div
+                          className={`${getProgressColor(
+                            progress
+                          )} h-1 rounded-full transition-all duration-300`}
+                          style={{ width: `${progress}%` }}
+                        ></div>
+                      </div>
+
+                      {/* Progress Percentage */}
+                      <Text
+                        variant="caption"
+                        className={`text-xs ${getProgressTextColor(progress)}`}
+                      >
+                        {progress}%
+                      </Text>
+                    </div>
+                  </Card>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </div>
+
+      {/* Mobile Layout - Scrollable with sticky button */}
+      <div className="lg:hidden">
+        {/* Mobile Header - Scrolls away */}
+        <div className={`${theme === "dark" ? "bg-gray-900 border-gray-700" : "bg-white border-gray-200"} border-b`}>
+          <Container className="py-6">
+            <div className="text-center">
+              <Text variant="h1" className="mb-2">
+                Let's learn English! 📚
+              </Text>
+              <Text variant="body" color="secondary" className="mb-4">
+                Get to know the English writing system
+              </Text>
+            </div>
+          </Container>
+        </div>
+
+        {/* Sticky Button */}
+        <div className={`sticky top-0 z-30 ${theme === "dark" ? "bg-gray-900 border-gray-700" : "bg-white border-gray-200"} border-b`}>
+          <Container className="py-3">
+            <div className="text-center">
+              <Link href="/lesson">
+                <Button variant="primary" className="px-6 py-2">
+                  LEARN THE LETTERS
+                </Button>
+              </Link>
+            </div>
+          </Container>
+        </div>
+
+        {/* Mobile Content - Scrollable */}
+        <Container className="max-w-full px-2 sm:px-4 md:px-6 pb-8 pt-4">
+          {/* Alphabet Section */}
+          <div className="mb-8">
+            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3 sm:gap-4">
+              {Object.entries(letterProgress).map(([letter, progress]) => (
+                <div
+                  key={letter}
+                  onClick={() => handleLetterClick(letter)}
+                  className="cursor-pointer"
+                >
+                  <Card className="text-center hover:shadow-lg transition-all duration-200 transform hover:scale-105 aspect-square flex items-center justify-center">
+                    <div className="w-full px-1">
+                      {/* Letter Display */}
+                      <div className="flex flex-row justify-center gap-0.5 mb-1">
+                        <Text variant="h2" className="text-2xl sm:text-3xl md:text-4xl font-bold">
+                          {letter}
+                        </Text>
+                        <Text variant="h2" className="text-2xl sm:text-3xl md:text-4xl font-bold">
+                          {letter.toLowerCase()}
+                        </Text>
+                      </div>
+
+                      {/* Progress Bar */}
+                      <div
+                        className={`w-full ${
+                          theme === "dark" ? "bg-gray-700" : "bg-gray-200"
+                        } rounded-full h-1 mb-1`}
+                      >
+                        <div
+                          className={`${getProgressColor(
+                            progress
+                          )} h-1 rounded-full transition-all duration-300`}
+                          style={{ width: `${progress}%` }}
+                        ></div>
+                      </div>
+
+                      {/* Progress Percentage */}
+                      <Text
+                        variant="caption"
+                        className={`text-xs ${getProgressTextColor(progress)}`}
+                      >
+                        {progress}%
+                      </Text>
+                    </div>
+                  </Card>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Special Combinations Section */}
+          <div className="mb-8">
+            <Text variant="h3" className="mb-4 text-center">
+              Special Characters
+            </Text>
+            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3 sm:gap-4">
+              {specialCombinations.map(({ combo, progress, sound }) => (
+                <div
+                  key={combo}
+                  onClick={() => handleSpecialComboClick(combo, sound)}
+                  className="cursor-pointer"
+                >
+                  <Card className="text-center hover:shadow-lg transition-all duration-200 transform hover:scale-105 aspect-square flex items-center justify-center">
+                    <div className="w-full px-1">
+                      {/* Combination Display - Same as letter cards */}
+                      <div className="flex flex-row justify-center gap-0.5 mb-1">
+                        <Text variant="h2" className="text-2xl sm:text-3xl md:text-4xl font-bold">
+                          {combo}
+                        </Text>
+                      </div>
+
+                      {/* Progress Bar */}
+                      <div
+                        className={`w-full ${
+                          theme === "dark" ? "bg-gray-700" : "bg-gray-200"
+                        } rounded-full h-1 mb-1`}
+                      >
+                        <div
+                          className={`${getProgressColor(
+                            progress
+                          )} h-1 rounded-full transition-all duration-300`}
+                          style={{ width: `${progress}%` }}
+                        ></div>
+                      </div>
+
+                      {/* Progress Percentage */}
+                      <Text
+                        variant="caption"
+                        className={`text-xs ${getProgressTextColor(progress)}`}
+                      >
+                        {progress}%
+                      </Text>
+                    </div>
+                  </Card>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </div>
     </Screen>
   );
 }
