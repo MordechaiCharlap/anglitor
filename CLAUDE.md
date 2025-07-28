@@ -77,7 +77,22 @@ The app should be seamless, addictive, animated as much as possible, and full of
 
 The page file (`src/app/[page-name]/page.tsx`) imports from the appropriate folder based on component scope.
 
-## Lesson Types
+## Learning Content Structure
+
+### Content Hierarchy
+
+The learning content is organized in a clear 4-level hierarchy:
+
+1. **Subjects** - Main learning categories (e.g., "Basic Adventure", "Travel Quest", "School Heroes")
+2. **LessonGroups** - Groups of related lessons within each subject (e.g., "Hello World!", "My Family", "Count & Time")
+3. **Lessons** - Individual learning sessions within each lesson group
+4. **Exercises** - Individual practice activities within each lesson
+
+**Visual Representation:**
+- Each **Subject** displays as a header card with multiple circular buttons below it
+- Each circular button represents a **LessonGroup** 
+- Clicking a LessonGroup opens its contained **Lessons**
+- Each Lesson contains multiple **Exercises** for practice
 
 ### Letter-Based Learning (Foundation)
 
@@ -94,7 +109,7 @@ Before users learn to translate words, they must first learn to read. The app fo
 - Progress to more complex words as letter knowledge increases
 - **Prerequisites**: Users must know letter sounds before word lessons
 
-### Interactive Lesson Types
+### Interactive Exercise Types
 
 - **Word Bank**: Drag and drop words to correct categories
 - **Fill in the Blank**: Complete sentences with missing words
