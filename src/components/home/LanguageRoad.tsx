@@ -16,11 +16,11 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
   const [selectedLesson, setSelectedLesson] = useState<{
     name: string;
     emoji: string;
-    x: number;
-    y: number;
+    targetElement: HTMLElement;
   } | null>(null);
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     const loadSubjects = async () => {
@@ -37,21 +37,46 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
     loadSubjects();
   }, []);
 
+  useEffect(() => {
+    if (!selectedLesson) {
+      setPopupPosition(null);
+      return;
+    }
+
+    const updatePosition = () => {
+      const rect = selectedLesson.targetElement.getBoundingClientRect();
+      setPopupPosition({
+        x: rect.left + rect.width / 2,
+        y: rect.top - 10,
+      });
+    };
+
+    updatePosition();
+    
+    const handleScroll = () => updatePosition();
+    const handleResize = () => updatePosition();
+    
+    window.addEventListener('scroll', handleScroll, true);
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll, true);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [selectedLesson]);
+
   const handleLessonClick = (event: React.MouseEvent, lessonGroup: any) => {
     event.stopPropagation();
-    const rect = event.currentTarget.getBoundingClientRect();
-    const newSelection = {
-      name: lessonGroup.name,
-      emoji: lessonGroup.emoji,
-      x: rect.left + rect.width / 2,
-      y: rect.top - 10,
-    };
     
     // If clicking the same lesson, close it. Otherwise, switch to the new one
     if (selectedLesson && selectedLesson.name === lessonGroup.name) {
       setSelectedLesson(null);
     } else {
-      setSelectedLesson(newSelection);
+      setSelectedLesson({
+        name: lessonGroup.name,
+        emoji: lessonGroup.emoji,
+        targetElement: event.currentTarget as HTMLElement,
+      });
     }
   };
 
@@ -121,14 +146,14 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
         </div>
       </div>
       {/* Lesson Popup */}
-      {selectedLesson && (
+      {selectedLesson && popupPosition && (
         <>
           {/* Popup */}
           <div
             className="fixed z-50 transform -translate-x-1/2 -translate-y-full"
             style={{
-              left: selectedLesson.x,
-              top: selectedLesson.y,
+              left: popupPosition.x,
+              top: popupPosition.y,
             }}
             onClick={(e) => e.stopPropagation()}
           >
