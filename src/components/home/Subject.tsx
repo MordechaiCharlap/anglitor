@@ -38,19 +38,14 @@ export function Subject({
 
   return (
     <div key={subject.id} className="relative">
-      {/* Subject Header - Compact */}
+      {/* Subject Header - Text with Lines */}
       <div className="relative z-10 mb-4">
-        <div className={`p-2 rounded-lg bg-gradient-to-br ${subject.bgGradient} shadow-lg transform hover:scale-105 transition-all duration-300`}>
-          <div className="text-center text-white">
-            <div className="text-xl mb-1">{subject.emoji}</div>
-            <Text variant="body" className="text-white font-bold">
-              {subject.name}
-            </Text>
-            <div className="mt-1 flex items-center justify-center gap-1">
-              <div className="text-xs">0/20</div>
-              <div className="text-sm">🏆</div>
-            </div>
-          </div>
+        <div className="flex items-center justify-center gap-4">
+          <div className={`flex-1 h-px ${theme === "dark" ? "bg-gray-600" : "bg-gray-300"}`}></div>
+          <Text variant="body" className="font-bold whitespace-nowrap">
+            {subject.name}
+          </Text>
+          <div className={`flex-1 h-px ${theme === "dark" ? "bg-gray-600" : "bg-gray-300"}`}></div>
         </div>
       </div>
 

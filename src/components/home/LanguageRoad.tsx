@@ -121,18 +121,6 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
   // Full version for desktop sidebar
   return (
     <div className="h-full">
-      {/* Header */}
-      <div className="mb-6 text-center">
-        <Text
-          variant="h2"
-          className="mb-2 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent"
-        >
-          🌈 Language Adventure
-        </Text>
-        <Text variant="small" color="secondary">
-          Your learning journey
-        </Text>
-      </div>
 
       {/* Vertical Road - Compact */}
       <div className="relative">

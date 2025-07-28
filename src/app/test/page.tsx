@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  Screen,
-  Container,
-  Text,
-} from "@/components";
+import { Screen, Container, Text } from "@/components";
 
 export default function TestPage() {
   return (
@@ -22,11 +18,13 @@ export default function TestPage() {
 
         {/* Button Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          
           {/* 1. Duolingo Style - Green Gradient with Bounce */}
           <div className="text-center">
-            <Text variant="h3" className="mb-4">Duolingo Style</Text>
-            <button className="
+            <Text variant="h3" className="mb-4">
+              Duolingo Style
+            </Text>
+            <button
+              className="
               bg-gradient-to-b from-green-400 to-green-600 
               hover:from-green-300 hover:to-green-500
               text-white font-bold py-4 px-8 rounded-2xl
@@ -35,15 +33,19 @@ export default function TestPage() {
               transition-all duration-200 ease-out
               border-b-4 border-green-700 hover:border-green-600
               active:translate-y-0 active:border-b-2
-            ">
+            "
+            >
               LEARN THE LETTERS
             </button>
           </div>
 
           {/* 2. Candy Crush Style - Purple Gradient with Sparkle */}
           <div className="text-center">
-            <Text variant="h3" className="mb-4">Candy Crush Style</Text>
-            <button className="
+            <Text variant="h3" className="mb-4">
+              Candy Crush Style
+            </Text>
+            <button
+              className="
               bg-gradient-to-br from-purple-400 via-pink-400 to-purple-600
               hover:from-purple-300 hover:via-pink-300 hover:to-purple-500
               text-white font-bold py-4 px-8 rounded-full
@@ -56,15 +58,19 @@ export default function TestPage() {
               before:from-transparent before:via-white before:to-transparent 
               before:opacity-20 before:translate-x-[-100%] 
               hover:before:translate-x-[100%] before:transition-transform before:duration-700
-            ">
+            "
+            >
               LEARN THE LETTERS
             </button>
           </div>
 
           {/* 3. Pokemon GO Style - Blue 3D Button */}
           <div className="text-center">
-            <Text variant="h3" className="mb-4">Pokemon GO Style</Text>
-            <button className="
+            <Text variant="h3" className="mb-4">
+              Pokemon GO Style
+            </Text>
+            <button
+              className="
               bg-gradient-to-b from-blue-400 to-blue-700
               hover:from-blue-300 hover:to-blue-600
               text-white font-bold py-4 px-8 rounded-xl
@@ -73,15 +79,19 @@ export default function TestPage() {
               transform hover:translate-y-1
               transition-all duration-150 ease-out
               active:translate-y-2 active:shadow-[0_2px_0_0_#1e40af,0_4px_15px_rgba(0,0,0,0.2)]
-            ">
+            "
+            >
               LEARN THE LETTERS
             </button>
           </div>
 
           {/* 4. Clash Royale Style - Orange Cartoon Button */}
           <div className="text-center">
-            <Text variant="h3" className="mb-4">Clash Royale Style</Text>
-            <button className="
+            <Text variant="h3" className="mb-4">
+              Clash Royale Style
+            </Text>
+            <button
+              className="
               bg-gradient-to-b from-orange-300 to-orange-600
               hover:from-orange-200 hover:to-orange-500
               text-white font-black py-4 px-8 rounded-2xl
@@ -92,15 +102,19 @@ export default function TestPage() {
               border-4 border-yellow-300
               active:translate-y-3 active:shadow-[0_3px_0_0_#c2410c,0_5px_15px_rgba(0,0,0,0.3)]
               text-lg tracking-wider
-            ">
+            "
+            >
               LEARN THE LETTERS
             </button>
           </div>
 
           {/* 5. Minecraft Style - Pixelated Green */}
           <div className="text-center">
-            <Text variant="h3" className="mb-4">Minecraft Style</Text>
-            <button className="
+            <Text variant="h3" className="mb-4">
+              Minecraft Style
+            </Text>
+            <button
+              className="
               bg-gradient-to-b from-emerald-400 to-emerald-700
               hover:from-emerald-300 hover:to-emerald-600
               text-white font-bold py-4 px-8
@@ -111,15 +125,19 @@ export default function TestPage() {
               border-2 border-emerald-800
               font-mono text-sm tracking-wider
               active:translate-x-2 active:translate-y-2 active:shadow-none
-            ">
+            "
+            >
               LEARN THE LETTERS
             </button>
           </div>
 
           {/* 6. Among Us Style - Red Rounded Button */}
           <div className="text-center">
-            <Text variant="h3" className="mb-4">Among Us Style</Text>
-            <button className="
+            <Text variant="h3" className="mb-4">
+              Among Us Style
+            </Text>
+            <button
+              className="
               bg-gradient-to-b from-red-400 to-red-700
               hover:from-red-300 hover:to-red-600
               text-white font-bold py-5 px-10 rounded-full
@@ -131,15 +149,19 @@ export default function TestPage() {
               before:absolute before:inset-2 before:rounded-full 
               before:bg-gradient-to-b before:from-red-200 before:to-transparent 
               before:opacity-30
-            ">
+            "
+            >
               LEARN THE LETTERS
             </button>
           </div>
 
           {/* 7. Subway Surfers Style - Rainbow Gradient */}
           <div className="text-center">
-            <Text variant="h3" className="mb-4">Subway Surfers Style</Text>
-            <button className="
+            <Text variant="h3" className="mb-4">
+              Subway Surfers Style
+            </Text>
+            <button
+              className="
               bg-gradient-to-r from-pink-400 via-purple-400 via-blue-400 to-green-400
               hover:from-pink-300 hover:via-purple-300 hover:via-blue-300 hover:to-green-300
               text-white font-black py-4 px-8 rounded-2xl
@@ -149,15 +171,19 @@ export default function TestPage() {
               border-3 border-white
               animate-pulse hover:animate-none
               text-lg
-            ">
+            "
+            >
               LEARN THE LETTERS
             </button>
           </div>
 
           {/* 8. Roblox Style - Bright Blue with Outline */}
           <div className="text-center">
-            <Text variant="h3" className="mb-4">Roblox Style</Text>
-            <button className="
+            <Text variant="h3" className="mb-4">
+              Roblox Style
+            </Text>
+            <button
+              className="
               bg-gradient-to-b from-sky-400 to-sky-700
               hover:from-sky-300 hover:to-sky-600
               text-white font-bold py-4 px-8 rounded-lg
@@ -168,15 +194,19 @@ export default function TestPage() {
               border-2 border-sky-800
               active:translate-y-2 active:shadow-[0_1px_0_0_#0369a1,0_4px_15px_rgba(0,0,0,0.2)]
               text-sm font-black tracking-wide
-            ">
+            "
+            >
               LEARN THE LETTERS
             </button>
           </div>
 
           {/* 9. Fortnite Style - Neon Glow */}
           <div className="text-center">
-            <Text variant="h3" className="mb-4">Fortnite Style</Text>
-            <button className="
+            <Text variant="h3" className="mb-4">
+              Fortnite Style
+            </Text>
+            <button
+              className="
               bg-gradient-to-b from-cyan-400 to-blue-600
               hover:from-cyan-300 hover:to-blue-500
               text-white font-bold py-4 px-8 rounded-xl
@@ -191,15 +221,19 @@ export default function TestPage() {
               before:from-transparent before:via-white before:to-transparent 
               before:opacity-25 before:translate-x-[-100%] 
               hover:before:translate-x-[100%] before:transition-transform before:duration-500
-            ">
+            "
+            >
               LEARN THE LETTERS
             </button>
           </div>
 
           {/* 10. Fall Guys Style - Pink Bouncy */}
           <div className="text-center">
-            <Text variant="h3" className="mb-4">Fall Guys Style</Text>
-            <button className="
+            <Text variant="h3" className="mb-4">
+              Fall Guys Style
+            </Text>
+            <button
+              className="
               bg-gradient-to-b from-pink-300 to-pink-600
               hover:from-pink-200 hover:to-pink-500
               text-white font-black py-5 px-8 rounded-full
@@ -213,11 +247,77 @@ export default function TestPage() {
               before:absolute before:inset-1 before:rounded-full 
               before:bg-gradient-to-b before:from-pink-100 before:to-transparent 
               before:opacity-40
-            ">
+            "
+            >
               LEARN THE LETTERS
             </button>
           </div>
+        </div>
 
+        {/* NEW: Lesson Button Examples */}
+        <div className="mt-16 text-center">
+          <Text variant="h2" className="mb-8">
+            New Lesson Button Designs
+          </Text>
+          <div className="flex justify-center gap-12">
+            {/* Colored Star Button */}
+            <div className="text-center">
+              <Text variant="h3" className="mb-4">
+                Colored (Available)
+              </Text>
+              <button
+                className="
+                w-24 h-24 rounded-full
+                bg-gradient-to-b from-green-400 to-green-600
+                hover:from-green-300 hover:to-green-500
+                shadow-[0_6px_0_0_#166534,0_8px_20px_rgba(34,197,94,0.3)]
+                hover:shadow-[0_4px_0_0_#166534,0_6px_25px_rgba(34,197,94,0.4)]
+                transform hover:translate-y-1
+                transition-all duration-150 ease-out
+                active:translate-y-2 active:shadow-[0_2px_0_0_#166534,0_4px_15px_rgba(34,197,94,0.2)]
+                border-2 border-green-700
+                flex items-center justify-center
+              "
+              >
+                <svg
+                  className="w-12 h-12 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Gray Lock Button */}
+            <div className="text-center">
+              <Text variant="h3" className="mb-4">
+                Gray (Locked)
+              </Text>
+              <button
+                className="
+                w-24 h-24 rounded-full
+                bg-gradient-to-b from-gray-300 to-gray-500
+                hover:from-gray-200 hover:to-gray-400
+                shadow-[0_4px_0_0_#374151,0_6px_15px_rgba(0,0,0,0.2)]
+                hover:shadow-[0_2px_0_0_#374151,0_4px_20px_rgba(0,0,0,0.3)]
+                transform hover:translate-y-1
+                transition-all duration-150 ease-out
+                active:translate-y-2 active:shadow-[0_1px_0_0_#37Now4151,0_2px_10px_rgba(0,0,0,0.1)]
+                border-2 border-gray-600
+                flex items-center justify-center
+              "
+              >
+                <svg
+                  className="w-10 h-10 text-black opacity-50"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z" />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Bottom Note */}
@@ -226,7 +326,6 @@ export default function TestPage() {
             Click any button to test the feel! 🎯
           </Text>
         </div>
-
       </Container>
     </Screen>
   );
