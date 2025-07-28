@@ -4,7 +4,8 @@ import { Card, Text } from "@/components";
 import { Subject } from "./Subject";
 import { useTheme } from "@/contexts/ThemeContext";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchSubjects, Subject as SubjectType } from "@/services/subjectsService";
 
 interface LanguageRoadProps {
   isCompact?: boolean;
@@ -18,58 +19,23 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
     x: number;
     y: number;
   } | null>(null);
+  const [subjects, setSubjects] = useState<SubjectType[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Mock data for subjects and lessons
-  const subjects = [
-    {
-      id: "basic",
-      name: "Basic Adventure",
-      emoji: "🌟",
-      color: "rainbow",
-      bgGradient: "from-pink-400 via-purple-500 to-indigo-500",
-      description: "Start your English journey here!",
-      lessonGroups: [
-        { id: 1, name: "Hello World!", completedLessons: 0, emoji: "👋" },
-        { id: 2, name: "My Family", completedLessons: 0, emoji: "👨‍👩‍👧‍👦" },
-        { id: 3, name: "Count & Time", completedLessons: 0, emoji: "🕐" },
-        { id: 4, name: "Rainbow Colors", completedLessons: 0, emoji: "🌈" },
-        { id: 5, name: "Daily Fun", completedLessons: 0, emoji: "🎯" },
-        { id: 6, name: "Basic Complete", completedLessons: 0, emoji: "🏆" },
-      ],
-    },
-    {
-      id: "travel",
-      name: "Travel Quest",
-      emoji: "🗺️",
-      color: "ocean",
-      bgGradient: "from-cyan-400 via-blue-500 to-purple-600",
-      description: "Explore the world with English!",
-      lessonGroups: [
-        { id: 1, name: "Sky High", completedLessons: 0, emoji: "✈️" },
-        { id: 2, name: "Cozy Stay", completedLessons: 0, emoji: "🏨" },
-        { id: 3, name: "Yummy Food", completedLessons: 0, emoji: "🍕" },
-        { id: 4, name: "Find Your Way", completedLessons: 0, emoji: "🧭" },
-        { id: 5, name: "Shopping Spree", completedLessons: 0, emoji: "🛍️" },
-        { id: 6, name: "Travel Master", completedLessons: 0, emoji: "🌍" },
-      ],
-    },
-    {
-      id: "school",
-      name: "School Heroes",
-      emoji: "🎓",
-      color: "forest",
-      bgGradient: "from-green-400 via-emerald-500 to-teal-600",
-      description: "Become a classroom champion!",
-      lessonGroups: [
-        { id: 1, name: "School Stuff", completedLessons: 0, emoji: "📚" },
-        { id: 2, name: "Cool Subjects", completedLessons: 0, emoji: "🧪" },
-        { id: 3, name: "Team Players", completedLessons: 0, emoji: "👥" },
-        { id: 4, name: "Test Power", completedLessons: 0, emoji: "📝" },
-        { id: 5, name: "Fun Events", completedLessons: 0, emoji: "🎉" },
-        { id: 6, name: "School Legend", completedLessons: 0, emoji: "🎓" },
-      ],
-    },
-  ];
+  useEffect(() => {
+    const loadSubjects = async () => {
+      try {
+        const fetchedSubjects = await fetchSubjects();
+        setSubjects(fetchedSubjects);
+      } catch (error) {
+        console.error('Failed to load subjects:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSubjects();
+  }, []);
 
   const handleLessonClick = (event: React.MouseEvent, lessonGroup: any) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -80,6 +46,14 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
       y: rect.top - 10,
     });
   };
+
+  if (loading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <Text variant="body" color="muted">Loading subjects...</Text>
+      </div>
+    );
+  }
 
   if (isCompact) {
     // Compact version for mobile - card format
