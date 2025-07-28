@@ -83,13 +83,13 @@ The page file (`src/app/[page-name]/page.tsx`) imports from the appropriate fold
 
 The learning content is organized in a clear 4-level hierarchy:
 
-1. **Subjects** - Main learning categories (e.g., "Basic Adventure", "Travel Quest", "School Heroes")
-2. **LessonGroups** - Groups of related lessons within each subject (e.g., "Hello World!", "My Family", "Count & Time")
+1. **Units** - Main learning categories (e.g., "Basic Adventure", "Travel Quest", "School Heroes")
+2. **LessonGroups** - Groups of related lessons within each unit (e.g., "Hello World!", "My Family", "Count & Time")
 3. **Lessons** - Individual learning sessions within each lesson group
 4. **Exercises** - Individual practice activities within each lesson
 
 **Visual Representation:**
-- Each **Subject** displays as a header card with multiple circular buttons below it
+- Each **Unit** displays as a header card with multiple circular buttons below it
 - Each circular button represents a **LessonGroup** 
 - Clicking a LessonGroup opens its contained **Lessons**
 - Each Lesson contains multiple **Exercises** for practice

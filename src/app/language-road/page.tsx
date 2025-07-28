@@ -9,8 +9,8 @@ export default function LanguageRoadPage() {
   const { theme } = useTheme();
   const currentTheme = themes[theme];
 
-  // Mock data for subjects and lessons - more playful!
-  const subjects = [
+  // Mock data for units and lessons - more playful!
+  const units = [
     {
       id: "basic",
       name: "Basic Adventure",
@@ -50,7 +50,7 @@ export default function LanguageRoadPage() {
       description: "Become a classroom champion!",
       lessonGroups: [
         { id: 1, name: "School Stuff", completedLessons: 0, emoji: "📚" },
-        { id: 2, name: "Cool Subjects", completedLessons: 0, emoji: "🧪" },
+        { id: 2, name: "Cool Units", completedLessons: 0, emoji: "🧪" },
         { id: 3, name: "Team Players", completedLessons: 0, emoji: "👥" },
         { id: 4, name: "Test Power", completedLessons: 0, emoji: "📝" },
         { id: 5, name: "Fun Events", completedLessons: 0, emoji: "🎉" },
@@ -185,23 +185,23 @@ export default function LanguageRoadPage() {
           {/* Main road line */}
           <div className={`absolute left-1/2 transform -translate-x-1/2 w-2 h-full ${theme === "dark" ? "bg-gray-700" : "bg-gray-300"} rounded-full`}></div>
           
-          {/* Subjects - Vertical Layout */}
+          {/* Units - Vertical Layout */}
           <div className="space-y-16">
-            {subjects.map((subject, subjectIndex) => {
-              const colorClasses = getColorClasses(subject.color);
+            {units.map((unit, unitIndex) => {
+              const colorClasses = getColorClasses(unit.color);
               
               return (
-                <div key={subject.id} className="relative">
-                  {/* Subject Header Card */}
+                <div key={unit.id} className="relative">
+                  {/* Unit Header Card */}
                   <div className="relative z-10 mb-8">
-                    <div className={`p-6 rounded-2xl bg-gradient-to-br ${subject.bgGradient} shadow-2xl transform hover:scale-105 transition-all duration-300`}>
+                    <div className={`p-6 rounded-2xl bg-gradient-to-br ${unit.bgGradient} shadow-2xl transform hover:scale-105 transition-all duration-300`}>
                       <div className="text-center text-white">
-                        <div className="text-5xl mb-3 animate-bounce">{subject.emoji}</div>
+                        <div className="text-5xl mb-3 animate-bounce">{unit.emoji}</div>
                         <Text variant="h2" className="mb-2 text-white font-bold">
-                          {subject.name}
+                          {unit.name}
                         </Text>
                         <Text variant="body" className="text-white/90">
-                          {subject.description}
+                          {unit.description}
                         </Text>
                         <div className="mt-4 flex items-center justify-center gap-2">
                           <div className="text-sm font-semibold">0 / 20 lessons</div>
@@ -213,21 +213,21 @@ export default function LanguageRoadPage() {
 
                   {/* Lesson Groups - Vertical Path */}
                   <div className="space-y-12 ml-4">
-                    {subject.lessonGroups.map((lessonGroup, index) => {
-                      const isLastInSubject = index === subject.lessonGroups.length - 1;
-                      const isLastSubject = subjectIndex === subjects.length - 1;
+                    {unit.lessonGroups.map((lessonGroup, index) => {
+                      const isLastInUnit = index === unit.lessonGroups.length - 1;
+                      const isLastUnit = unitIndex === units.length - 1;
                       
                       return (
                         <div key={lessonGroup.id} className="relative flex items-center">
                           {/* Connecting line to next lesson */}
-                          {!isLastInSubject && (
+                          {!isLastInUnit && (
                             <div className={`absolute left-10 top-20 w-0.5 h-12 ${theme === "dark" ? "bg-gray-600" : "bg-gray-400"} z-0`}></div>
                           )}
                           
                           {/* Lesson Circle */}
                           <LessonGroupCircle 
                             completedLessons={lessonGroup.completedLessons} 
-                            color={subject.color}
+                            color={unit.color}
                             emoji={lessonGroup.emoji}
                           />
                           
@@ -255,8 +255,8 @@ export default function LanguageRoadPage() {
                     })}
                   </div>
                   
-                  {/* Connecting line to next subject */}
-                  {subjectIndex < subjects.length - 1 && (
+                  {/* Connecting line to next unit */}
+                  {unitIndex < units.length - 1 && (
                     <div className={`absolute left-10 -bottom-8 w-0.5 h-16 ${theme === "dark" ? "bg-gray-600" : "bg-gray-400"} z-0`}></div>
                   )}
                 </div>

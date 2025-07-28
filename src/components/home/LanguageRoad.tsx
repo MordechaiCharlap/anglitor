@@ -1,11 +1,11 @@
 "use client";
 
 import { Card, Text } from "@/components";
-import { Subject } from "./Subject";
+import { Unit } from "./Unit";
 import { useTheme } from "@/contexts/ThemeContext";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { fetchSubjects, Subject as SubjectType } from "@/services/subjectsService";
+import { fetchUnits, Unit as UnitType } from "@/services/unitsService";
 
 interface LanguageRoadProps {
   isCompact?: boolean;
@@ -18,23 +18,23 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
     emoji: string;
     targetElement: HTMLElement;
   } | null>(null);
-  const [subjects, setSubjects] = useState<SubjectType[]>([]);
+  const [units, setUnits] = useState<UnitType[]>([]);
   const [loading, setLoading] = useState(true);
   const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
-    const loadSubjects = async () => {
+    const loadUnits = async () => {
       try {
-        const fetchedSubjects = await fetchSubjects();
-        setSubjects(fetchedSubjects);
+        const fetchedUnits = await fetchUnits();
+        setUnits(fetchedUnits);
       } catch (error) {
-        console.error('Failed to load subjects:', error);
+        console.error('Failed to load units:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    loadSubjects();
+    loadUnits();
   }, []);
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
   if (loading) {
     return (
       <div className="h-full flex items-center justify-center">
-        <Text variant="body" color="muted">Loading subjects...</Text>
+        <Text variant="body" color="muted">Loading units...</Text>
       </div>
     );
   }
@@ -106,12 +106,12 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
 
             {/* Mini preview */}
             <div className="flex justify-center gap-2 mb-3">
-              {subjects.slice(0, 3).map((subject) => (
+              {units.slice(0, 3).map((unit) => (
                 <div
-                  key={subject.id}
-                  className={`w-8 h-8 rounded-full bg-gradient-to-br ${subject.bgGradient} flex items-center justify-center text-white text-sm`}
+                  key={unit.id}
+                  className={`w-8 h-8 rounded-full bg-gradient-to-br ${unit.bgGradient} flex items-center justify-center text-white text-sm`}
                 >
-                  {subject.emoji}
+                  {unit.emoji}
                 </div>
               ))}
             </div>
@@ -131,14 +131,14 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
 
       {/* Vertical Road - Compact */}
       <div className="relative" onClick={(e) => e.stopPropagation()}>
-        {/* Subjects - Compact Vertical Layout */}
+        {/* Units - Compact Vertical Layout */}
         <div className="space-y-32">
-          {subjects.map((subject, subjectIndex) => (
-            <Subject
-              key={subject.id}
-              subject={subject}
-              subjectIndex={subjectIndex}
-              totalSubjects={subjects.length}
+          {units.map((unit, unitIndex) => (
+            <Unit
+              key={unit.id}
+              unit={unit}
+              unitIndex={unitIndex}
+              totalUnits={units.length}
               onLessonClick={handleLessonClick}
               isCompact={isCompact}
             />

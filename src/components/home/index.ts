@@ -1,4 +1,4 @@
 export { LanguageRoad } from './LanguageRoad';
-export { Subject } from './Subject';
+export { Unit } from './Unit';
 export { LessonGroup } from './LessonGroup';
 export { LessonGroupButton } from './LessonGroupButton';

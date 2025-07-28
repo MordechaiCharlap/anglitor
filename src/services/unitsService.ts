@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase';
 
-export interface Subject {
+export interface Unit {
   id: string;
   name: string;
   emoji: string;
@@ -32,29 +32,29 @@ const colorGradients = [
   "from-purple-400 via-pink-500 to-red-500",
 ];
 
-export async function fetchSubjects(): Promise<Subject[]> {
+export async function fetchUnits(): Promise<Unit[]> {
   try {
     const { data, error } = await supabase
-      .from('subjects')
+      .from('units') // Database table for units
       .select('*')
       .order('orderIndex');
 
     if (error) {
-      console.error('Error fetching subjects:', error);
+      console.error('Error fetching units:', error);
       throw error;
     }
 
-    return data?.map((subject, index) => ({
-      id: subject.id,
-      name: subject.name,
+    return data?.map((unit, index) => ({
+      id: unit.id,
+      name: unit.name,
       emoji: "📚", // Default emoji for now
       color: "rainbow",
       bgGradient: colorGradients[index % colorGradients.length],
-      description: subject.description || "Start your learning journey!",
+      description: unit.description || "Start your learning journey!",
       lessonGroups: mockLessonGroups,
     })) || [];
   } catch (error) {
-    console.error('Failed to fetch subjects:', error);
+    console.error('Failed to fetch units:', error);
     throw error;
   }
 }

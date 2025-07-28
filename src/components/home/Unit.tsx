@@ -4,7 +4,7 @@ import { Text } from "@/components";
 import { LessonGroupButton } from "./LessonGroupButton";
 import { useTheme } from "@/contexts/ThemeContext";
 
-interface SubjectData {
+interface UnitData {
   id: string;
   name: string;
   emoji: string;
@@ -19,31 +19,31 @@ interface SubjectData {
   }>;
 }
 
-interface SubjectProps {
-  subject: SubjectData;
-  subjectIndex: number;
-  totalSubjects: number;
+interface UnitProps {
+  unit: UnitData;
+  unitIndex: number;
+  totalUnits: number;
   onLessonClick: (event: React.MouseEvent, lessonGroup: any) => void;
   isCompact?: boolean;
 }
 
-export function Subject({ 
-  subject, 
-  subjectIndex, 
-  totalSubjects, 
+export function Unit({ 
+  unit, 
+  unitIndex, 
+  totalUnits, 
   onLessonClick, 
   isCompact = false 
-}: SubjectProps) {
+}: UnitProps) {
   const { theme } = useTheme();
 
   return (
-    <div key={subject.id} className="relative">
-      {/* Subject Header - Text with Lines */}
+    <div key={unit.id} className="relative">
+      {/* Unit Header - Text with Lines */}
       <div className="relative z-10 mb-4">
         <div className="flex items-center justify-center gap-4">
           <div className={`flex-1 h-px ${theme === "dark" ? "bg-gray-600" : "bg-gray-300"}`}></div>
           <Text variant="body" className="font-bold whitespace-nowrap">
-            {subject.name}
+            {unit.name}
           </Text>
           <div className={`flex-1 h-px ${theme === "dark" ? "bg-gray-600" : "bg-gray-300"}`}></div>
         </div>
@@ -51,15 +51,15 @@ export function Subject({
 
       {/* Lesson Groups - True Snake Pattern */}
       <div className="relative" style={{ minHeight: '768px' }}>
-        {subject.lessonGroups.map((lessonGroup, index) => {
+        {unit.lessonGroups.map((lessonGroup, index) => {
           const isFirstLesson = index === 0;
-          const isLastLesson = index === subject.lessonGroups.length - 1;
+          const isLastLesson = index === unit.lessonGroups.length - 1;
           
-          // Snake positioning alternates direction per subject
-          // Even subjects (0,2,4...): center → left → far left → back to center
-          // Odd subjects (1,3,5...): center → right → far right → back to center
+          // Snake positioning alternates direction per unit
+          // Even units (0,2,4...): center → left → far left → back to center
+          // Odd units (1,3,5...): center → right → far right → back to center
           let leftPosition = '50%'; // Default center
-          const isLeftDirection = subjectIndex % 2 === 0;
+          const isLeftDirection = unitIndex % 2 === 0;
           
           if (isLeftDirection) {
             // Left curve pattern: ( - curves INWARD toward center
@@ -83,9 +83,9 @@ export function Subject({
             }
           }
           
-          // Fixed cycling colors for lesson groups - use subject index for consistent color per subject
+          // Fixed cycling colors for lesson groups - use unit index for consistent color per unit
           const lessonColors: Array<"green" | "blue" | "purple" | "orange" | "cyan"> = ["green", "blue", "purple", "orange", "cyan"];
-          const lessonColor = lessonColors[subjectIndex % lessonColors.length];
+          const lessonColor = lessonColors[unitIndex % lessonColors.length];
           
           // Only first lesson group is available, others are locked
           const isAvailable = index === 0;
