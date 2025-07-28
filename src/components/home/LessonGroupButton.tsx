@@ -94,6 +94,7 @@ export function LessonGroupButton({
         active:translate-y-2
         border-2 ${colorClasses.border}
         flex items-center justify-center
+        cursor-pointer
       `}
       onClick={onClick}
     >

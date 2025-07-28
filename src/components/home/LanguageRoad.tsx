@@ -38,13 +38,21 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
   }, []);
 
   const handleLessonClick = (event: React.MouseEvent, lessonGroup: any) => {
+    event.stopPropagation();
     const rect = event.currentTarget.getBoundingClientRect();
-    setSelectedLesson({
+    const newSelection = {
       name: lessonGroup.name,
       emoji: lessonGroup.emoji,
       x: rect.left + rect.width / 2,
       y: rect.top - 10,
-    });
+    };
+    
+    // If clicking the same lesson, close it. Otherwise, switch to the new one
+    if (selectedLesson && selectedLesson.name === lessonGroup.name) {
+      setSelectedLesson(null);
+    } else {
+      setSelectedLesson(newSelection);
+    }
   };
 
   if (loading) {
@@ -94,10 +102,10 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
 
   // Full version for desktop sidebar
   return (
-    <div className="h-full">
+    <div className="h-full" onClick={() => setSelectedLesson(null)}>
 
       {/* Vertical Road - Compact */}
-      <div className="relative">
+      <div className="relative" onClick={(e) => e.stopPropagation()}>
         {/* Subjects - Compact Vertical Layout */}
         <div className="space-y-32">
           {subjects.map((subject, subjectIndex) => (
@@ -115,12 +123,6 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
       {/* Lesson Popup */}
       {selectedLesson && (
         <>
-          {/* Backdrop to close popup */}
-          <div
-            className="fixed inset-0 z-40 bg-transparent"
-            onClick={() => setSelectedLesson(null)}
-          />
-
           {/* Popup */}
           <div
             className="fixed z-50 transform -translate-x-1/2 -translate-y-full"
@@ -128,6 +130,7 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
               left: selectedLesson.x,
               top: selectedLesson.y,
             }}
+            onClick={(e) => e.stopPropagation()}
           >
             <div
               className={`px-4 py-2 rounded-2xl ${
