@@ -83,9 +83,9 @@ export function Subject({
             }
           }
           
-          // Random colors for first lesson
-          const randomColors: Array<"green" | "blue" | "purple" | "orange" | "cyan"> = ["green", "blue", "purple", "orange", "cyan"];
-          const randomColor = randomColors[Math.floor(Math.random() * randomColors.length)];
+          // Fixed cycling colors for lesson groups - use subject index for consistent color per subject
+          const lessonColors: Array<"green" | "blue" | "purple" | "orange" | "cyan"> = ["green", "blue", "purple", "orange", "cyan"];
+          const lessonColor = lessonColors[subjectIndex % lessonColors.length];
           
           // Only first lesson group is available, others are locked
           const isAvailable = index === 0;
@@ -105,7 +105,7 @@ export function Subject({
             >
               <LessonGroupButton 
                 isAvailable={isAvailable}
-                color={isAvailable ? randomColor : "green"}
+                color={isAvailable ? lessonColor : "green"}
                 onClick={(e) => onLessonClick(e, lessonGroup)}
               />
             </div>
