@@ -51,11 +51,14 @@ const client = new textToSpeech.TextToSpeechClient({
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { text, lang = "he" } = body;
+    const { text, lang = "he", voice = "female" } = body;
 
     if (!text) {
       return NextResponse.json({ error: "Missing text" }, { status: 400 });
     }
+
+    // Convert voice parameter to Google Cloud TTS format
+    const ssmlGender = voice === "male" ? "MALE" : "FEMALE";
 
     const voiceSettings: Record<
       "he" | "en",
@@ -70,19 +73,19 @@ export async function POST(req: NextRequest) {
     > = {
       he: {
         languageCode: "he-IL",
-        ssmlGender: "FEMALE",
+        ssmlGender,
       },
       en: {
         languageCode: "en-US",
-        ssmlGender: "FEMALE",
+        ssmlGender,
       },
     };
 
-    const voice = voiceSettings[lang as "he" | "en"] ?? voiceSettings["he"];
+    const voiceConfig = voiceSettings[lang as "he" | "en"] ?? voiceSettings["he"];
 
     const [response] = await client.synthesizeSpeech({
       input: { text },
-      voice,
+      voice: voiceConfig,
       audioConfig: {
         audioEncoding: "MP3",
       },

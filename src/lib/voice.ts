@@ -84,13 +84,14 @@ export function playCelebrationSound() {
     });
   }, []);
 }
-export async function speakEnglish(text: string) {
+export async function speakEnglish(text: string, voice: 'male' | 'female' = 'female') {
   const response = await fetch("/api/speak", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       text: text,
-      lang: "eng",
+      lang: "en",
+      voice: voice,
     }),
   });
   const blob = await response.blob();
@@ -98,13 +99,14 @@ export async function speakEnglish(text: string) {
   const audio = new Audio(url);
   audio.play();
 }
-export async function speakHebrew(text: string) {
+export async function speakHebrew(text: string, voice: 'male' | 'female' = 'female') {
   const response = await fetch("/api/speak", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       text: text,
       lang: "he",
+      voice: voice,
     }),
   });
 
