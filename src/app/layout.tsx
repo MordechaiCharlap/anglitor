@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { UserProvider } from "@/contexts/UserContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { UnitsProvider } from "@/contexts/UnitsContext";
 import { LayoutWrapper } from "@/components";
 
 const geistSans = Geist({
@@ -34,9 +35,11 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthProvider>
             <UserProvider>
-              <LayoutWrapper>
-                {children}
-              </LayoutWrapper>
+              <UnitsProvider>
+                <LayoutWrapper>
+                  {children}
+                </LayoutWrapper>
+              </UnitsProvider>
             </UserProvider>
           </AuthProvider>
         </ThemeProvider>
