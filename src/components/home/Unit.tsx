@@ -1,7 +1,7 @@
 "use client";
 
 import { Text } from "@/components";
-import { LessonGroupButton } from "./LessonGroupButton";
+import { StepButton } from "./StepButton";
 import { useTheme } from "@/contexts/ThemeContext";
 
 interface UnitData {
@@ -11,11 +11,17 @@ interface UnitData {
   color: string;
   bgGradient: string;
   description: string;
-  lessonGroups: Array<{
-    id: number;
+  steps: Array<{
+    id: string;
     name: string;
     completedLessons: number;
     emoji: string;
+    stepIndex: number;
+    lessons: Array<{
+      id: string;
+      title: string | null;
+      lessonIndex: number;
+    }>;
   }>;
 }
 
@@ -23,7 +29,7 @@ interface UnitProps {
   unit: UnitData;
   unitIndex: number;
   totalUnits: number;
-  onLessonClick: (event: React.MouseEvent, lessonGroup: any) => void;
+  onStepClick: (event: React.MouseEvent, step: { id: string; name: string; completedLessons: number; emoji: string }) => void;
   isCompact?: boolean;
 }
 
@@ -31,7 +37,7 @@ export function Unit({
   unit, 
   unitIndex, 
   totalUnits, 
-  onLessonClick, 
+  onStepClick, 
   isCompact = false 
 }: UnitProps) {
   const { theme } = useTheme();
@@ -49,11 +55,11 @@ export function Unit({
         </div>
       </div>
 
-      {/* Lesson Groups - True Snake Pattern */}
+      {/* Steps - True Snake Pattern */}
       <div className="relative" style={{ minHeight: '768px' }}>
-        {unit.lessonGroups.map((lessonGroup, index) => {
+        {unit.steps.map((step, index) => {
           const isFirstLesson = index === 0;
-          const isLastLesson = index === unit.lessonGroups.length - 1;
+          const isLastStep = index === unit.steps.length - 1;
           
           // Snake positioning alternates direction per unit
           // Even units (0,2,4...): center → left → far left → back to center
@@ -83,11 +89,11 @@ export function Unit({
             }
           }
           
-          // Fixed cycling colors for lesson groups - use unit index for consistent color per unit
+          // Fixed cycling colors for steps - use unit index for consistent color per unit
           const lessonColors: Array<"green" | "blue" | "purple" | "orange" | "cyan"> = ["green", "blue", "purple", "orange", "cyan"];
-          const lessonColor = lessonColors[unitIndex % lessonColors.length];
+          const stepColor = lessonColors[unitIndex % lessonColors.length];
           
-          // Only first lesson group is available, others are locked
+          // Only first step is available, others are locked
           const isAvailable = index === 0;
           
           // Vertical spacing: circle height (96px) + half circle size (48px) = 144px
@@ -95,7 +101,7 @@ export function Unit({
           
           return (
             <div 
-              key={lessonGroup.id} 
+              key={step.id} 
               className="absolute"
               style={{ 
                 top: `${index * verticalSpacing}px`,
@@ -103,10 +109,10 @@ export function Unit({
                 transform: 'translateX(-50%)'
               }}
             >
-              <LessonGroupButton 
+              <StepButton 
                 isAvailable={isAvailable}
-                color={isAvailable ? lessonColor : "green"}
-                onClick={(e) => onLessonClick(e, lessonGroup)}
+                color={isAvailable ? stepColor : "green"}
+                onClick={(e) => onStepClick(e, step)}
               />
             </div>
           );

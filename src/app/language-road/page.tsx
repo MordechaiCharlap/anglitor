@@ -18,7 +18,7 @@ export default function LanguageRoadPage() {
       color: "rainbow",
       bgGradient: "from-pink-400 via-purple-500 to-indigo-500",
       description: "Start your English journey here!",
-      lessonGroups: [
+      steps: [
         { id: 1, name: "Hello World!", completedLessons: 0, emoji: "👋" },
         { id: 2, name: "My Family", completedLessons: 0, emoji: "👨‍👩‍👧‍👦" },
         { id: 3, name: "Count & Time", completedLessons: 0, emoji: "🕐" },
@@ -33,7 +33,7 @@ export default function LanguageRoadPage() {
       color: "ocean",
       bgGradient: "from-cyan-400 via-blue-500 to-purple-600",
       description: "Explore the world with English!",
-      lessonGroups: [
+      steps: [
         { id: 1, name: "Sky High", completedLessons: 0, emoji: "✈️" },
         { id: 2, name: "Cozy Stay", completedLessons: 0, emoji: "🏨" },
         { id: 3, name: "Yummy Food", completedLessons: 0, emoji: "🍕" },
@@ -48,7 +48,7 @@ export default function LanguageRoadPage() {
       color: "forest",
       bgGradient: "from-green-400 via-emerald-500 to-teal-600",
       description: "Become a classroom champion!",
-      lessonGroups: [
+      steps: [
         { id: 1, name: "School Stuff", completedLessons: 0, emoji: "📚" },
         { id: 2, name: "Cool Units", completedLessons: 0, emoji: "🧪" },
         { id: 3, name: "Team Players", completedLessons: 0, emoji: "👥" },
@@ -91,7 +91,7 @@ export default function LanguageRoadPage() {
     }
   };
 
-  const LessonGroupCircle = ({ 
+  const StepCircle = ({ 
     completedLessons, 
     color, 
     emoji, 
@@ -213,39 +213,39 @@ export default function LanguageRoadPage() {
 
                   {/* Lesson Groups - Vertical Path */}
                   <div className="space-y-12 ml-4">
-                    {unit.lessonGroups.map((lessonGroup, index) => {
-                      const isLastInUnit = index === unit.lessonGroups.length - 1;
+                    {unit.steps.map((step, index) => {
+                      const isLastInUnit = index === unit.steps.length - 1;
                       const isLastUnit = unitIndex === units.length - 1;
                       
                       return (
-                        <div key={lessonGroup.id} className="relative flex items-center">
+                        <div key={step.id} className="relative flex items-center">
                           {/* Connecting line to next lesson */}
                           {!isLastInUnit && (
                             <div className={`absolute left-10 top-20 w-0.5 h-12 ${theme === "dark" ? "bg-gray-600" : "bg-gray-400"} z-0`}></div>
                           )}
                           
-                          {/* Lesson Circle */}
-                          <LessonGroupCircle 
-                            completedLessons={lessonGroup.completedLessons} 
+                          {/* Step Circle */}
+                          <StepCircle 
+                            completedLessons={step.completedLessons} 
                             color={unit.color}
-                            emoji={lessonGroup.emoji}
+                            emoji={step.emoji}
                           />
                           
                           {/* Lesson Info */}
                           <div className="ml-6 flex-1">
                             <div className={`p-4 rounded-xl ${theme === "dark" ? "bg-gray-800/50" : "bg-white/50"} backdrop-blur-sm border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105`}>
                               <Text variant="body" className="font-semibold mb-1">
-                                {lessonGroup.name}
+                                {step.name}
                               </Text>
                               <div className="flex items-center gap-2">
                                 <div className={`w-full h-2 ${theme === "dark" ? "bg-gray-700" : "bg-gray-200"} rounded-full overflow-hidden`}>
                                   <div 
                                     className={`h-2 ${colorClasses.bg} rounded-full transition-all duration-500`}
-                                    style={{ width: `${(lessonGroup.completedLessons / 4) * 100}%` }}
+                                    style={{ width: `${(step.completedLessons / 4) * 100}%` }}
                                   ></div>
                                 </div>
                                 <Text variant="caption" color="muted" className="text-xs">
-                                  {lessonGroup.completedLessons}/4
+                                  {step.completedLessons}/4
                                 </Text>
                               </div>
                             </div>

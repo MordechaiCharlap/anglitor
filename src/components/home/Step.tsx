@@ -2,25 +2,25 @@
 
 import { useTheme } from "@/contexts/ThemeContext";
 
-interface LessonGroupProps {
+interface StepProps {
   completedLessons: number;
   color: string;
   emoji: string;
   size?: "small" | "normal";
-  lessonName: string;
+  stepName: string;
   onClick: (event: React.MouseEvent) => void;
   isCompact?: boolean;
 }
 
-export function LessonGroup({ 
+export function Step({ 
   completedLessons, 
   color, 
   emoji, 
   size = "normal",
-  lessonName,
+  stepName,
   onClick,
   isCompact = false
-}: LessonGroupProps) {
+}: StepProps) {
   const { theme } = useTheme();
   
   const getColorClasses = (color: string) => {

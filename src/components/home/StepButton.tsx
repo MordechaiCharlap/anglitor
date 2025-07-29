@@ -1,18 +1,18 @@
 "use client";
 
-interface LessonGroupButtonProps {
+interface StepButtonProps {
   isAvailable: boolean;
   color?: "green" | "blue" | "purple" | "orange" | "cyan";
   onClick: (event: React.MouseEvent) => void;
   size?: "normal" | "large";
 }
 
-export function LessonGroupButton({ 
+export function StepButton({ 
   isAvailable, 
   color = "green",
   onClick,
   size = "normal"
-}: LessonGroupButtonProps) {
+}: StepButtonProps) {
   
   const getColorClasses = (color: string) => {
     switch (color) {

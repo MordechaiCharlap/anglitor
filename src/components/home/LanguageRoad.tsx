@@ -5,7 +5,7 @@ import { Unit } from "./Unit";
 import { useTheme } from "@/contexts/ThemeContext";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { fetchUnits, Unit as UnitType } from "@/services/unitsService";
+import { useUnits } from "@/contexts/UnitsContext";
 
 interface LanguageRoadProps {
   isCompact?: boolean;
@@ -13,38 +13,23 @@ interface LanguageRoadProps {
 
 export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
   const { theme } = useTheme();
-  const [selectedLesson, setSelectedLesson] = useState<{
+  const { units, loading, error } = useUnits();
+  const [selectedStep, setSelectedStep] = useState<{
     name: string;
     emoji: string;
     targetElement: HTMLElement;
   } | null>(null);
-  const [units, setUnits] = useState<UnitType[]>([]);
-  const [loading, setLoading] = useState(true);
   const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
 
-  useEffect(() => {
-    const loadUnits = async () => {
-      try {
-        const fetchedUnits = await fetchUnits();
-        setUnits(fetchedUnits);
-      } catch (error) {
-        console.error('Failed to load units:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadUnits();
-  }, []);
 
   useEffect(() => {
-    if (!selectedLesson) {
+    if (!selectedStep) {
       setPopupPosition(null);
       return;
     }
 
     const updatePosition = () => {
-      const rect = selectedLesson.targetElement.getBoundingClientRect();
+      const rect = selectedStep.targetElement.getBoundingClientRect();
       setPopupPosition({
         x: rect.left + rect.width / 2,
         y: rect.top - 10,
@@ -63,18 +48,18 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
       window.removeEventListener('scroll', handleScroll, true);
       window.removeEventListener('resize', handleResize);
     };
-  }, [selectedLesson]);
+  }, [selectedStep]);
 
-  const handleLessonClick = (event: React.MouseEvent, lessonGroup: any) => {
+  const handleStepClick = (event: React.MouseEvent, step: { id: string; name: string; completedLessons: number; emoji: string }) => {
     event.stopPropagation();
     
-    // If clicking the same lesson, close it. Otherwise, switch to the new one
-    if (selectedLesson && selectedLesson.name === lessonGroup.name) {
-      setSelectedLesson(null);
+    // If clicking the same step, close it. Otherwise, switch to the new one
+    if (selectedStep && selectedStep.name === step.name) {
+      setSelectedStep(null);
     } else {
-      setSelectedLesson({
-        name: lessonGroup.name,
-        emoji: lessonGroup.emoji,
+      setSelectedStep({
+        name: step.name,
+        emoji: step.emoji,
         targetElement: event.currentTarget as HTMLElement,
       });
     }
@@ -84,6 +69,14 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
     return (
       <div className="h-full flex items-center justify-center">
         <Text variant="body" color="muted">Loading units...</Text>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <Text variant="body" color="muted">Failed to load units. Please try again.</Text>
       </div>
     );
   }
@@ -127,7 +120,7 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
 
   // Full version for desktop sidebar
   return (
-    <div className="h-full" onClick={() => setSelectedLesson(null)}>
+    <div className="h-full" onClick={() => setSelectedStep(null)}>
 
       {/* Vertical Road - Compact */}
       <div className="relative" onClick={(e) => e.stopPropagation()}>
@@ -139,14 +132,14 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
               unit={unit}
               unitIndex={unitIndex}
               totalUnits={units.length}
-              onLessonClick={handleLessonClick}
+              onStepClick={handleStepClick}
               isCompact={isCompact}
             />
           ))}
         </div>
       </div>
-      {/* Lesson Popup */}
-      {selectedLesson && popupPosition && (
+      {/* Step Popup */}
+      {selectedStep && popupPosition && (
         <>
           {/* Popup */}
           <div
@@ -165,12 +158,12 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
               } border-2 shadow-2xl backdrop-blur-sm`}
             >
               <div className="flex items-center gap-2">
-                <span className="text-lg">{selectedLesson.emoji}</span>
+                <span className="text-lg">{selectedStep.emoji}</span>
                 <Text
                   variant="small"
                   className="font-semibold whitespace-nowrap"
                 >
-                  {selectedLesson.name}
+                  {selectedStep.name}
                 </Text>
               </div>
 
