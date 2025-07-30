@@ -36,24 +36,31 @@ export function WordBank({
 
   return (
     <div className="space-y-4">
+      {selectedWords.length > 0 && (
+        <div className="mb-4">
+          <Text variant="small" color="muted">
+            Selected: {selectedWords.map(w => w.displayText || w.textEn).join(" ")}
+          </Text>
+        </div>
+      )}
+      
       <Text variant="body" className="font-semibold">
         Tap the words to select them:
       </Text>
       
-      <div className="flex flex-wrap gap-3 p-4 min-h-[120px] border-2 border-dashed border-gray-300 rounded-lg">
+      <div className="flex flex-wrap gap-3 p-4 min-h-[120px] border-2 border-dashed border-gray-300 rounded-lg items-start">
         {words.map((word) => {
           const selected = isWordSelected(word);
           return (
-            <Button
+            <button
               key={word.id}
-              variant={selected ? "primary" : "secondary"}
               className={`
-                px-4 py-2 text-sm font-medium transition-all duration-200
+                px-6 py-1.5 text-sm font-medium transition-all duration-200 rounded-full min-w-[40px]
                 ${selected 
-                  ? 'transform scale-95 opacity-70' 
-                  : 'hover:scale-105 hover:shadow-md'
+                  ? 'bg-black text-white dark:bg-white dark:text-black opacity-70' 
+                  : 'bg-transparent text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
                 }
-                ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+                ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
               `}
               onClick={() => {
                 if (disabled) return;
@@ -65,18 +72,10 @@ export function WordBank({
               }}
             >
               {word.displayText || word.textEn}
-            </Button>
+            </button>
           );
         })}
       </div>
-      
-      {selectedWords.length > 0 && (
-        <div className="mt-4">
-          <Text variant="small" color="muted">
-            Selected: {selectedWords.map(w => w.displayText || w.textEn).join(" ")}
-          </Text>
-        </div>
-      )}
     </div>
   );
 }
