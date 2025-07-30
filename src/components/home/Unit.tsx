@@ -29,7 +29,7 @@ interface UnitProps {
   unit: UnitData;
   unitIndex: number;
   totalUnits: number;
-  onStepClick: (event: React.MouseEvent, step: { id: string; name: string; completedLessons: number; emoji: string }) => void;
+  onStepClick: (event: React.MouseEvent, step: { id: string; name: string; completedLessons: number; emoji: string; stepIndex: number; lessons: Array<{id: string; title: string | null; lessonIndex: number; exercises: string[]}> }) => void;
   isCompact?: boolean;
 }
 
