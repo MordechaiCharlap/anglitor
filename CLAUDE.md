@@ -66,6 +66,19 @@ The app should be seamless, addictive, animated as much as possible, and full of
 - User profile data is fetched after authentication
 - Project is modularized with separate folders for contexts, components, and utilities
 
+### Coding Principles
+
+#### DRY (Don't Repeat Yourself)
+**Key principle:** Eliminate code duplication by centralizing repeated logic in reusable components or utilities.
+
+**Implementation:**
+- Move common functionality to shared components (e.g., WordBank handles word ordering internally)
+- Create reusable abstractions with configurable props instead of duplicating similar code across components
+- Use a single source of truth for shared logic to improve maintainability
+- Apply separation of concerns - each component should focus on its specific responsibility
+
+**Example:** Instead of implementing word shuffling logic in every exercise component, the WordBank component handles ordering with a `preserveOrder` prop, keeping exercise components focused on their specific logic.
+
 #### Component Organization Rule
 
 **Key principle:** Break down complex pages into smaller, manageable component files for better organization, even if components are only used on that specific page.
