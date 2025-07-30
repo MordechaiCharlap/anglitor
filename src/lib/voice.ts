@@ -115,3 +115,43 @@ export async function speakHebrew(text: string, voice: 'male' | 'female' = 'fema
   const audio = new Audio(url);
   audio.play();
 }
+
+export async function speakEnglishSlow(text: string, voice: 'male' | 'female' = 'female') {
+  const words = text.split(' ');
+  
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    
+    try {
+      const response = await fetch("/api/speak", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: word,
+          lang: "en",
+          voice: voice,
+        }),
+      });
+      
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      
+      // Set playback rate to half speed
+      audio.playbackRate = 0.5;
+      
+      // Play the word and wait for it to finish
+      await new Promise<void>((resolve) => {
+        audio.onended = () => resolve();
+        audio.play();
+      });
+      
+      // Wait 0.3 seconds before next word (except for the last word)
+      if (i < words.length - 1) {
+        await new Promise(resolve => setTimeout(resolve, 300));
+      }
+    } catch (error) {
+      console.error('Error speaking word:', word, error);
+    }
+  }
+}
