@@ -21,6 +21,7 @@ interface UnitData {
       id: string;
       title: string | null;
       lessonIndex: number;
+      exercises: string[];
     }>;
   }>;
 }
