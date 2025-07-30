@@ -5,6 +5,7 @@ import { Unit } from "./Unit";
 import { useTheme } from "@/contexts/ThemeContext";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useUnits } from "@/contexts/UnitsContext";
 
 interface LanguageRoadProps {
@@ -13,11 +14,13 @@ interface LanguageRoadProps {
 
 export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
   const { theme } = useTheme();
+  const router = useRouter();
   const { units, loading, error } = useUnits();
   const [selectedStep, setSelectedStep] = useState<{
     name: string;
     emoji: string;
     targetElement: HTMLElement;
+    stepData: { id: string; name: string; completedLessons: number; emoji: string; stepIndex: number; lessons: Array<{id: string; title: string | null; lessonIndex: number; exercises: string[]}> };
   } | null>(null);
   const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
 
@@ -50,10 +53,20 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
     };
   }, [selectedStep]);
 
-  const handleStepClick = (event: React.MouseEvent, step: { id: string; name: string; completedLessons: number; emoji: string }) => {
+  const handleStepClick = (event: React.MouseEvent, step: { id: string; name: string; completedLessons: number; emoji: string; stepIndex: number; lessons: Array<{id: string; title: string | null; lessonIndex: number; exercises: string[]}> }) => {
     event.stopPropagation();
     
-    // If clicking the same step, close it. Otherwise, switch to the new one
+    // If step has lessons, navigate to the first lesson
+    if (step.lessons && step.lessons.length > 0) {
+      const firstLesson = step.lessons[0];
+      if (firstLesson.exercises && firstLesson.exercises.length > 0) {
+        const exerciseIds = firstLesson.exercises.join(',');
+        router.push(`/lesson?lessonId=${firstLesson.id}&exerciseIds=${exerciseIds}`);
+        return;
+      }
+    }
+    
+    // Otherwise, show step popup (fallback for steps without lessons)
     if (selectedStep && selectedStep.name === step.name) {
       setSelectedStep(null);
     } else {
@@ -61,6 +74,7 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
         name: step.name,
         emoji: step.emoji,
         targetElement: event.currentTarget as HTMLElement,
+        stepData: step,
       });
     }
   };
