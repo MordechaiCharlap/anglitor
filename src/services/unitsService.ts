@@ -6,6 +6,7 @@ interface LessonData {
   stepIndex: number;
   lessonIndex: number;
   title: string | null;
+  exercises: string[];
   createdAt: string;
   updatedAt: string;
 }
@@ -27,6 +28,7 @@ export interface Unit {
       id: string;
       title: string | null;
       lessonIndex: number;
+      exercises: string[];
     }>;
   }>;
 }
@@ -70,7 +72,7 @@ export async function fetchUnits(): Promise<Unit[]> {
     // Fetch lessons for all units
     const { data: lessonsData, error: lessonsError } = await supabase
       .from('lessons')
-      .select('*')
+      .select('*, exercises')
       .order('stepIndex, lessonIndex');
 
     if (lessonsError) {
@@ -107,6 +109,7 @@ export async function fetchUnits(): Promise<Unit[]> {
             id: lesson.id,
             title: lesson.title,
             lessonIndex: lesson.lessonIndex,
+            exercises: lesson.exercises || [],
           })),
         };
       }).sort((a, b) => a.stepIndex - b.stepIndex);
