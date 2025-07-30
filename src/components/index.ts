@@ -10,3 +10,5 @@ export { Modal } from "./Modal";
 export { Sidebar } from "./Sidebar";
 export { BottomTabs } from "./BottomTabs";
 export { LayoutWrapper } from "./LayoutWrapper";
+export { SpeakerButton } from "./SpeakerButton";
+export { SlowSpeakerButton } from "./SlowSpeakerButton";
