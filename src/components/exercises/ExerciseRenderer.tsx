@@ -27,13 +27,15 @@ interface ExerciseRendererProps {
   solutionWords: Word[];
   distractorWords: Word[];
   onComplete: (correct: boolean) => void;
+  onNext: () => void;
 }
 
 export function ExerciseRenderer({ 
   exercise, 
   solutionWords, 
   distractorWords, 
-  onComplete 
+  onComplete,
+  onNext
 }: ExerciseRendererProps) {
   
   switch (exercise.exerciseType) {
@@ -44,6 +46,7 @@ export function ExerciseRenderer({
           solutionWords={solutionWords}
           distractorWords={distractorWords}
           onComplete={onComplete}
+          onNext={onNext}
         />
       );
       
@@ -54,6 +57,7 @@ export function ExerciseRenderer({
           solutionWords={solutionWords}
           distractorWords={distractorWords}
           onComplete={onComplete}
+          onNext={onNext}
         />
       );
       
@@ -64,6 +68,7 @@ export function ExerciseRenderer({
           solutionWords={solutionWords}
           distractorWords={distractorWords}
           onComplete={onComplete}
+          onNext={onNext}
         />
       );
       
@@ -74,6 +79,7 @@ export function ExerciseRenderer({
           solutionWords={solutionWords}
           distractorWords={distractorWords}
           onComplete={onComplete}
+          onNext={onNext}
         />
       );
       

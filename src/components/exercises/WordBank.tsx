@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Text } from "@/components";
+import { useExerciseStyles } from "@/styles/exerciseStyles";
 
 interface Word {
   id: string;
@@ -29,6 +30,7 @@ export function WordBank({
   disabled = false,
   preserveOrder = true
 }: WordBankProps) {
+  const styles = useExerciseStyles();
   const [displayWords] = useState(() => {
     return preserveOrder ? words : [...words].sort(() => Math.random() - 0.5);
   });
@@ -55,12 +57,8 @@ export function WordBank({
             <button
               key={word.id}
               className={`
-                px-6 py-2 text-sm font-medium transition-all duration-200 rounded-full min-w-[60px]
-                border-2 
-                ${selected 
-                  ? 'bg-black text-white dark:bg-white dark:text-black border-black dark:border-white' 
-                  : 'bg-transparent text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
-                }
+                ${styles.wordButton.base}
+                ${selected ? styles.wordButton.selected : styles.wordButton.unselected}
                 ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105'}
               `.replace(/\s+/g, ' ').trim()}
               onClick={() => {

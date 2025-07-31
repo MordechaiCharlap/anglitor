@@ -12,7 +12,7 @@ export const Card: React.FC<CardProps> = ({ children, className = '' }) => {
   const currentTheme = themes[theme];
 
   return (
-    <div className={`${currentTheme.cardBackground} ${currentTheme.border} border rounded-lg p-6 shadow-lg ${className}`}>
+    <div className={`${currentTheme.cardBackground} ${currentTheme.border} border rounded-xl p-6 ${theme === 'light' ? 'shadow-sm' : 'shadow-lg'} ${className}`}>
       {children}
     </div>
   );

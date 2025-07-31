@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Text, SpeakerButton } from "@/components";
 import { ExerciseContainer } from "./ExerciseContainer";
 import { speakHebrew } from "@/lib/voice";
+import { useExerciseStyles } from "@/styles/exerciseStyles";
 
 interface Word {
   id: string;
@@ -27,14 +28,17 @@ interface TranslateHeToEnProps {
   solutionWords: Word[];
   distractorWords: Word[];
   onComplete: (correct: boolean) => void;
+  onNext: () => void;
 }
 
 export function TranslateHeToEn({ 
   exercise, 
   solutionWords, 
   distractorWords, 
-  onComplete 
+  onComplete,
+  onNext
 }: TranslateHeToEnProps) {
+  const styles = useExerciseStyles();
   
   // Filter and combine words for word bank - only include words with English text
   const filteredSolutionWords = solutionWords.filter(word => word.textEn && word.textEn.trim() !== '');
@@ -69,11 +73,13 @@ export function TranslateHeToEn({
   }, [exercise.id]);
 
   const promptSection = (
-    <div className="text-center p-6 bg-neutral-50 dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-700">
-      <div className="flex items-center justify-center gap-4">
-        <Text variant="h3" color="primary" className="font-semibold text-xl">
+    <div className="flex items-center gap-4">
+      <div className={`flex-[3] p-6 ${styles.textCard}`}>
+        <Text variant="h3" color="primary" className="font-semibold text-xl text-center">
           {exercise.sentence}
         </Text>
+      </div>
+      <div className="flex-1 flex justify-center">
         <SpeakerButton onClick={playAudio} />
       </div>
     </div>
@@ -83,6 +89,7 @@ export function TranslateHeToEn({
     <ExerciseContainer
       exercise={exercise}
       onComplete={onComplete}
+      onNext={onNext}
       title="Translate to English"
       promptSection={promptSection}
       words={allWords}

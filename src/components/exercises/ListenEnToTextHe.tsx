@@ -27,13 +27,15 @@ interface ListenEnToTextHeProps {
   solutionWords: Word[];
   distractorWords: Word[];
   onComplete: (correct: boolean) => void;
+  onNext: () => void;
 }
 
 export function ListenEnToTextHe({ 
   exercise, 
   solutionWords, 
   distractorWords, 
-  onComplete 
+  onComplete,
+  onNext
 }: ListenEnToTextHeProps) {
 
   // Filter and combine words for word bank - only include words with Hebrew text
@@ -59,8 +61,8 @@ export function ListenEnToTextHe({
   }, [exercise.id]);
 
   const promptSection = (
-    <div className="text-center p-6 bg-neutral-50 dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-700">
-      <div className="mb-4 flex justify-center gap-4">
+    <div className="text-center">
+      <div className="flex justify-center gap-4">
         <SpeakerButton onClick={playAudio} />
         <SlowSpeakerButton onClick={playSlowAudio} />
       </div>
@@ -77,6 +79,7 @@ export function ListenEnToTextHe({
     <ExerciseContainer
       exercise={exercise}
       onComplete={onComplete}
+      onNext={onNext}
       title="Listen and Translate"
       promptSection={promptSection}
       words={wordsForWordBank}

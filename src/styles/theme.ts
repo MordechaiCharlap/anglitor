@@ -1,25 +1,29 @@
 export const themes = {
   light: {
-    background: 'bg-gray-50',
+    background: 'bg-white',
     cardBackground: 'bg-white',
+    chatBackground: 'bg-gray-50',
     text: {
       primary: 'text-gray-900',
-      secondary: 'text-gray-600',
+      secondary: 'text-gray-500',
       muted: 'text-gray-400',
     },
     border: 'border-gray-200',
-    hover: 'hover:bg-gray-100',
+    divider: 'border-gray-100',
+    hover: 'hover:bg-gray-50',
     input: {
       background: 'bg-white',
-      border: 'border-gray-300',
-      focus: 'focus:border-blue-500',
+      border: 'border-gray-200',
+      focus: 'focus:border-emerald-500',
       text: 'text-gray-900',
       placeholder: 'placeholder-gray-400',
     },
     button: {
-      primary: 'bg-blue-600 hover:bg-blue-700 text-white',
-      secondary: 'bg-gray-200 hover:bg-gray-300 text-gray-900 border border-gray-300',
+      primary: 'bg-emerald-600 hover:bg-emerald-700 text-white',
+      secondary: 'bg-gray-100 hover:bg-gray-200 text-gray-900 border border-gray-200',
     },
+    accent: 'text-emerald-600',
+    badge: 'bg-gray-100',
   },
   dark: {
     background: 'bg-gray-900',
