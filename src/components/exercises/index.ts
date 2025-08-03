@@ -1,6 +1,4 @@
 export { WordBank } from './WordBank';
-export { TranslateEnToHe } from './TranslateEnToHe';
-export { TranslateHeToEn } from './TranslateHeToEn';
-export { ListenEnToTextEn } from './ListenEnToTextEn';
-export { ListenEnToTextHe } from './ListenEnToTextHe';
+export { Solution } from './Solution';
 export { ExerciseRenderer } from './ExerciseRenderer';
+export * from './types';

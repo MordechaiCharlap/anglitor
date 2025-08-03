@@ -53,15 +53,15 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
     };
   }, [selectedStep]);
 
-  const handleStepClick = (event: React.MouseEvent, step: { id: string; name: string; completedLessons: number; emoji: string; stepIndex: number; lessons: Array<{id: string; title: string | null; lessonIndex: number; exercises: string[]}> }) => {
+  const handleStepClick = (event: React.MouseEvent, step: { id: string; name: string; completedLessons: number; emoji: string; stepIndex: number; lessons: Array<{id: string; title: string | null; lessonIndex: number; exercises: string[]}> }, unitIndex: number) => {
     event.stopPropagation();
     
-    // If step has lessons, navigate to the first lesson
+    // If step has lessons, navigate to the first lesson using 1-based indices
     if (step.lessons && step.lessons.length > 0) {
       const firstLesson = step.lessons[0];
       if (firstLesson.exercises && firstLesson.exercises.length > 0) {
-        const exerciseIds = firstLesson.exercises.join(',');
-        router.push(`/lesson?lessonId=${firstLesson.id}&exerciseIds=${exerciseIds}`);
+        // Convert to 1-based for URL (unitIndex+1, stepIndex+1, lessonIndex+1)
+        router.push(`/lesson/${unitIndex + 1}/${step.stepIndex + 1}/${firstLesson.lessonIndex + 1}`);
         return;
       }
     }
@@ -146,7 +146,7 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
               unit={unit}
               unitIndex={unitIndex}
               totalUnits={units.length}
-              onStepClick={handleStepClick}
+              onStepClick={(event, step) => handleStepClick(event, step, unitIndex)}
               isCompact={isCompact}
             />
           ))}
