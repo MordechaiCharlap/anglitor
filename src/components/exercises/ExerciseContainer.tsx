@@ -16,6 +16,7 @@ interface ExerciseContainerProps {
   getSelectedText: (selectedWords: Word[]) => string;
   checkAnswerLogic?: (selectedText: string, solutions: string[]) => boolean;
   useWordBank?: boolean;
+  language?: 'en' | 'he';
   customWordSelection?:
     | ReactNode
     | ((
@@ -36,6 +37,7 @@ export function ExerciseContainer({
   getSelectedText,
   checkAnswerLogic,
   useWordBank = true,
+  language = 'en',
   customWordSelection,
 }: ExerciseContainerProps) {
   const styles = useExerciseStyles();
@@ -94,6 +96,7 @@ export function ExerciseContainer({
           onWordDeselect={handleWordDeselect}
           disabled={showResult}
           style="multiline"
+          language={language}
         />
 
         {/* Word Selection */}

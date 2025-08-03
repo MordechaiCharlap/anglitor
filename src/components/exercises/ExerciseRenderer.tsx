@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { ExerciseContainer } from "./ExerciseContainer";
 import { TextWithAudioPrompt } from "./TextWithAudioPrompt";
 import { Word, Exercise, Language } from './types';
@@ -108,7 +108,7 @@ export function ExerciseRenderer({
       const timer = setTimeout(config.autoPlay, 500);
       return () => clearTimeout(timer);
     }
-  }, [exercise.id, exercise.sentence, config?.autoPlay]);
+  }, [exercise.id]);
   
   if (!config) {
     return (
@@ -136,6 +136,7 @@ export function ExerciseRenderer({
       words={processWords()}
       getSelectedText={(selectedWords) => getSelectedText(selectedWords, config.language)}
       checkAnswerLogic={config.checkAnswerLogic}
+      language={config.language}
     />
   );
 }

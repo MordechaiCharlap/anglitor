@@ -72,7 +72,7 @@ export default function LessonPage() {
     return () => {
       cancelled = true;
     };
-  }, [unitIndex, stepIndex, lessonIndex, unitsLoading, units]);
+  }, [unitIndex, stepIndex, lessonIndex, unitsLoading]);
 
   const handleComplete = (correct: boolean) => {
     setScore(prev => ({ correct: prev.correct + (correct ? 1 : 0), total: prev.total + 1 }));

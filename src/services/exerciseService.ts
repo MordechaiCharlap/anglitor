@@ -149,7 +149,6 @@ export async function prepareExerciseData(exercise: Exercise) {
       exercise.exerciseType
     );
     
-    console.log(`📝 Exercise ${exercise.exerciseType}: Got ${solutionWords.length} solution words, ${distractorWords.length} distractor words`);
     
     return {
       exercise,
