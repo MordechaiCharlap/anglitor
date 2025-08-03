@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Text } from "@/components";
 import { useExerciseStyles } from "@/styles/exerciseStyles";
 import { Word } from './types';
@@ -23,6 +23,7 @@ export function Solution({
   const styles = useExerciseStyles();
   const [fadingInWords, setFadingInWords] = useState<Set<string>>(new Set());
   const [previousWordIds, setPreviousWordIds] = useState<string[]>([]);
+  const animatedWordsRef = useRef<Set<string>>(new Set());
 
   // Track when new words are added to trigger fade-in animation
   useEffect(() => {
@@ -32,21 +33,29 @@ export function Solution({
     const newWordIds = currentWordIds.filter(id => !previousWordIds.includes(id));
 
     if (newWordIds.length > 0) {
-      // Start fade-in animation for only the newly added words
-      setFadingInWords(prev => {
-        const newSet = new Set(prev);
-        newWordIds.forEach(id => newSet.add(id));
-        return newSet;
-      });
-
-      // Remove from fading set after animation completes
-      setTimeout(() => {
+      // Only animate words that haven't been animated before in this session
+      const wordsToAnimate = newWordIds.filter(id => !animatedWordsRef.current.has(id));
+      
+      if (wordsToAnimate.length > 0) {
+        // Mark these words as animated to prevent future animations
+        wordsToAnimate.forEach(id => animatedWordsRef.current.add(id));
+        
+        // Start fade-in animation for only the newly added words
         setFadingInWords(prev => {
           const newSet = new Set(prev);
-          newWordIds.forEach(id => newSet.delete(id));
+          wordsToAnimate.forEach(id => newSet.add(id));
           return newSet;
         });
-      }, 500);
+
+        // Remove from fading set after animation completes
+        setTimeout(() => {
+          setFadingInWords(prev => {
+            const newSet = new Set(prev);
+            wordsToAnimate.forEach(id => newSet.delete(id));
+            return newSet;
+          });
+        }, 500);
+      }
     }
 
     // Update previous word IDs for next comparison
@@ -63,7 +72,7 @@ export function Solution({
 
   const isRTL = language === 'he';
   const directionClass = isRTL ? 'rtl' : 'ltr';
-  const flexDirection = isRTL ? 'flex-row-reverse' : 'flex-row';
+  const flexDirection = isRTL ? 'row-reverse' : 'row';
 
   return (
     <div className="space-y-2 w-full">
@@ -122,7 +131,7 @@ export function Solution({
                 </Text>
               </div>
             ) : (
-              <div className={`flex flex-wrap gap-3 items-start ${directionClass}`} style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}>
+              <div className={`flex flex-wrap gap-3 items-start ${directionClass}`} style={{ flexDirection }}>
                 {selectedWords.map((word, index) => {
                   const isFadingIn = fadingInWords.has(word.id);
                   return (
