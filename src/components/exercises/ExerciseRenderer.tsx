@@ -108,7 +108,7 @@ export function ExerciseRenderer({
       const timer = setTimeout(config.autoPlay, 500);
       return () => clearTimeout(timer);
     }
-  }, [exercise.id, config?.autoPlay]);
+  }, [exercise.id, exercise.sentence, config?.autoPlay]);
   
   if (!config) {
     return (

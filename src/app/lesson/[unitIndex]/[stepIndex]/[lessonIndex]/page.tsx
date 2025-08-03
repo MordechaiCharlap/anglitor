@@ -80,6 +80,9 @@ export default function LessonPage() {
 
   const handleNext = async () => {
     if (currentIndex < exercises.length - 1) {
+      // Clear current data first to prevent mismatch
+      setCurrentData(null);
+      
       const nextIndex = currentIndex + 1;
       setCurrentIndex(nextIndex);
       
@@ -91,6 +94,8 @@ export default function LessonPage() {
   };
 
   const handleRetry = async () => {
+    // Clear current data first to prevent mismatch
+    setCurrentData(null);
     setCurrentIndex(0);
     setScore({ correct: 0, total: 0 });
     setComplete(false);

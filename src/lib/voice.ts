@@ -84,7 +84,17 @@ export function playCelebrationSound() {
     });
   }, []);
 }
+// Global audio reference to prevent overlapping
+let currentAudio: HTMLAudioElement | null = null;
+
 export async function speakEnglish(text: string, voice: 'male' | 'female' = 'female') {
+  // Stop any currently playing audio
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
+  }
+
   const response = await fetch("/api/speak", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -97,6 +107,15 @@ export async function speakEnglish(text: string, voice: 'male' | 'female' = 'fem
   const blob = await response.blob();
   const url = URL.createObjectURL(blob);
   const audio = new Audio(url);
+  
+  // Set as current audio and cleanup when finished
+  currentAudio = audio;
+  audio.onended = () => {
+    if (currentAudio === audio) {
+      currentAudio = null;
+    }
+  };
+  
   audio.play();
 }
 export async function speakHebrew(text: string, voice: 'male' | 'female' = 'female') {
