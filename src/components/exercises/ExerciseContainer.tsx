@@ -2,26 +2,9 @@
 
 import { useState, useEffect, ReactNode } from "react";
 import { Card, Text, Button } from "@/components";
-import { WordBank } from "./WordBank";
+import { WordBank, Solution } from "./index";
 import { useExerciseStyles } from "@/styles/exerciseStyles";
-
-interface Word {
-  id: string;
-  textEn: string;
-  textHe: string;
-  partOfSpeech?: string;
-  baseWordId?: string;
-  displayText?: string;
-}
-
-interface Exercise {
-  id: string;
-  exerciseType: string;
-  sentence: string;
-  solutions: string[];
-  solutionWordIds: string[];
-  voice: "male" | "female";
-}
+import { Word, Exercise } from './types';
 
 interface ExerciseContainerProps {
   exercise: Exercise;
@@ -105,13 +88,20 @@ export function ExerciseContainer({
         {/* Prompt Section (sentence/audio) */}
         {promptSection}
 
+        {/* Solution Area */}
+        <Solution
+          selectedWords={selectedWords}
+          onWordDeselect={handleWordDeselect}
+          disabled={showResult}
+          style="multiline"
+        />
+
         {/* Word Selection */}
         {useWordBank ? (
           <WordBank
             words={words}
             selectedWords={selectedWords}
             onWordSelect={handleWordSelect}
-            onWordDeselect={handleWordDeselect}
             disabled={showResult}
           />
         ) : customWordSelection && typeof customWordSelection === "function" ? (
