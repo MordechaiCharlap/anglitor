@@ -22,8 +22,7 @@ export function TextWithAudioPrompt({
       <div className={`flex-[3] p-6 ${styles.textCard}`}>
         <Text
           variant="h3"
-          color="primary"
-          className="font-semibold text-xl text-center"
+          className={`font-semibold text-xl text-center ${styles.text.primary}`}
         >
           {text}
         </Text>

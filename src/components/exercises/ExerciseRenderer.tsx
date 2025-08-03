@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { ExerciseContainer } from "./ExerciseContainer";
-import { TextWithAudioPrompt, AudioOnlyPrompt } from "./PromptSections";
+import { AudioOnlyPrompt } from "./PromptSections";
 import { Word, Exercise, Language } from "./types";
 import { speakEnglish } from "@/lib/voice";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface ExerciseRendererProps {
   exercise: Exercise;
@@ -21,11 +22,11 @@ function filterWords(
 ): Word[] {
   const textProp = language === "en" ? "textEn" : "textHe";
 
-  const filteredSolution = solutionWords.filter(
-    (word) => word[textProp] && word[textProp].trim() !== ""
+  const filteredSolution = (solutionWords || []).filter(
+    (word) => word && word[textProp] && word[textProp].trim() !== ""
   );
-  const filteredDistractors = distractorWords.filter(
-    (word) => word[textProp] && word[textProp].trim() !== ""
+  const filteredDistractors = (distractorWords || []).filter(
+    (word) => word && word[textProp] && word[textProp].trim() !== ""
   );
 
   return [...filteredSolution, ...filteredDistractors].map((word) => ({
@@ -63,6 +64,10 @@ export function ExerciseRenderer({
   onComplete,
   onNext,
 }: ExerciseRendererProps) {
+  const { theme } = useTheme();
+  const [hasAutoPlayed, setHasAutoPlayed] = useState<string | null>(null);
+
+
   const getExerciseConfig = () => {
     switch (exercise.exerciseType) {
       case "translateEnToHe":
@@ -72,8 +77,18 @@ export function ExerciseRenderer({
           needsCapitalization: false,
           autoPlay: undefined,
           promptSection: (
-            <div className="text-center p-6 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-              <p className="text-2xl font-semibold text-blue-800 dark:text-blue-200">
+            <div
+              className={`text-center p-6 rounded-lg border ${
+                theme === "dark"
+                  ? "bg-blue-950/20 border-blue-950"
+                  : "bg-blue-50 border-blue-200"
+              }`}
+            >
+              <p
+                className={`text-2xl font-semibold ${
+                  theme === "dark" ? "text-blue-200" : "text-blue-950"
+                }`}
+              >
                 {exercise.sentence}
               </p>
             </div>
@@ -89,8 +104,18 @@ export function ExerciseRenderer({
           needsCapitalization: true,
           autoPlay: undefined,
           promptSection: (
-            <div className="text-center p-6 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-              <p className="text-2xl font-semibold text-blue-800 dark:text-blue-200">
+            <div
+              className={`text-center p-6 rounded-lg border ${
+                theme === "dark"
+                  ? "bg-blue-950/20 border-blue-950"
+                  : "bg-blue-50 border-blue-200"
+              }`}
+            >
+              <p
+                className={`text-2xl font-semibold ${
+                  theme === "dark" ? "text-blue-200" : "text-blue-950"
+                }`}
+              >
                 {exercise.sentence}
               </p>
             </div>
@@ -135,11 +160,14 @@ export function ExerciseRenderer({
   const config = getExerciseConfig();
 
   useEffect(() => {
-    if (config?.autoPlay) {
-      const timer = setTimeout(config.autoPlay, 500);
+    if (config?.autoPlay && hasAutoPlayed !== exercise.id) {
+      const timer = setTimeout(() => {
+        config.autoPlay!();
+        setHasAutoPlayed(exercise.id);
+      }, 500);
       return () => clearTimeout(timer);
     }
-  }, [exercise.id]);
+  }, [exercise.id, config?.autoPlay, hasAutoPlayed]);
 
   if (!config) {
     return (

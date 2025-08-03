@@ -7,13 +7,7 @@ import {
   Text,
   Button,
 } from "@/components";
-import { useTheme } from "@/contexts/ThemeContext";
-import { themes } from "@/styles/theme";
-import Link from "next/link";
-
 export default function GamesPage() {
-  const { theme } = useTheme();
-  const currentTheme = themes[theme];
 
   return (
     <Screen>
@@ -246,7 +240,7 @@ export default function GamesPage() {
               🏆 Daily Challenge
             </Text>
             <Text variant="body" color="secondary" className="mb-6">
-              Complete today's challenge to earn bonus XP and climb the leaderboard!
+              Complete today&apos;s challenge to earn bonus XP and climb the leaderboard!
             </Text>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="primary">Start Daily Challenge</Button>

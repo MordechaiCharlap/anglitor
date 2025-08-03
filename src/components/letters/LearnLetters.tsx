@@ -12,7 +12,7 @@ export function LearnLetters() {
       <Container className="py-6">
         <div className="text-center">
           <Text variant="h1" className="mb-2">
-            Let's learn English! 📚
+            Let&apos;s learn English! 📚
           </Text>
           <Text variant="body" color="secondary" className="mb-4">
             Get to know the English writing system

@@ -68,6 +68,9 @@ The app should be seamless, addictive, animated as much as possible, and full of
 
 ### Coding Principles
 
+#### Performance Rule
+**CRITICAL:** Minimize component re-renders and expensive operations. The least renders you can do the better - this is not cheap and would make the app go slower for nothing.
+
 #### DRY (Don't Repeat Yourself)
 **Key principle:** Eliminate code duplication by centralizing repeated logic in reusable components or utilities.
 

@@ -3,7 +3,6 @@
 import { Card, Text } from "@/components";
 import { Unit } from "./Unit";
 import { useTheme } from "@/contexts/ThemeContext";
-import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUnits } from "@/contexts/UnitsContext";

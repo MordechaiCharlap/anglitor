@@ -1,13 +1,11 @@
 "use client";
 
-import { Screen, Container, Card, Text, Button } from "@/components";
+import { Screen, Container, Text, Button } from "@/components";
 import { useTheme } from "@/contexts/ThemeContext";
-import { themes } from "@/styles/theme";
 import Link from "next/link";
 
 export default function LanguageRoadPage() {
   const { theme } = useTheme();
-  const currentTheme = themes[theme];
 
   // Mock data for units and lessons - more playful!
   const units = [

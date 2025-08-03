@@ -71,18 +71,16 @@ export function Solution({
   };
 
   const isRTL = language === 'he';
-  const directionClass = isRTL ? 'rtl' : 'ltr';
-  const flexDirection = isRTL ? 'row-reverse' : 'row';
 
   return (
     <div className="space-y-2 w-full">
-      <Text variant="small" color="muted" className="text-center">
+      <Text variant="small" color="primary" className="text-center">
         Your Answer
       </Text>
       <div className="w-full max-w-full mx-auto bg-transparent px-2">
         {style === 'line' ? (
           <div className="h-12 w-full border-b-2 border-dashed border-blue-300 dark:border-blue-600 bg-gradient-to-r from-transparent via-blue-50 dark:via-blue-950/20 to-transparent rounded-sm">
-            <div className={`flex items-center h-full px-2 sm:px-3 gap-2 sm:gap-3 overflow-x-auto ${directionClass}`} style={{ flexDirection }}>
+            <div className={`flex items-center h-full px-2 sm:px-3 gap-2 sm:gap-3 overflow-x-auto ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
               {selectedWords.length === 0 ? (
                 <Text variant="small" color="muted" className="italic whitespace-nowrap text-xs sm:text-sm">
                   Tap words below to build your answer...
@@ -131,7 +129,7 @@ export function Solution({
                 </Text>
               </div>
             ) : (
-              <div className={`flex flex-wrap gap-3 items-start ${directionClass}`} style={{ flexDirection }}>
+              <div className={`flex flex-wrap gap-3 items-start ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                 {selectedWords.map((word, index) => {
                   const isFadingIn = fadingInWords.has(word.id);
                   return (

@@ -106,6 +106,7 @@ export function ExerciseContainer({
             selectedWords={selectedWords}
             onWordSelect={handleWordSelect}
             disabled={showResult}
+            language={language}
           />
         ) : customWordSelection && typeof customWordSelection === "function" ? (
           customWordSelection(

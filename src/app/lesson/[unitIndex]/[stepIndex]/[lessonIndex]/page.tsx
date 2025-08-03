@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Screen, Container, Text, Button } from "@/components";
 import { ExerciseRenderer, Word } from "@/components/exercises";
-import { fetchExercisesByIds, prepareExerciseData, shuffleArray, Exercise } from "@/services/exerciseService";
+import { fetchExercisesByIds, prepareExerciseData, Exercise } from "@/services/exerciseService";
 import { useUnits } from "@/contexts/UnitsContext";
+import { useExercises } from "@/contexts/ExerciseContext";
 
 interface ExerciseData {
   exercise: Exercise;
@@ -17,9 +18,9 @@ export default function LessonPage() {
   const router = useRouter();
   const params = useParams();
   const { units, loading: unitsLoading } = useUnits();
+  const { getShuffledExerciseIds } = useExercises();
 
-  const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [currentData, setCurrentData] = useState<ExerciseData | null>(null);
+  const [allExerciseData, setAllExerciseData] = useState<ExerciseData[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,78 +34,68 @@ export default function LessonPage() {
   useEffect(() => {
     if (unitsLoading || !units?.length) return;
 
-    let cancelled = false;
-
     const loadLesson = async () => {
-      if (cancelled) return;
       try {
         setLoading(true);
         
-        const unit = units[unitIndex];
-        const step = unit?.steps[stepIndex];
-        const lesson = step?.lessons[lessonIndex];
+        // Get pre-shuffled exercise IDs
+        const exerciseIds = getShuffledExerciseIds(unitIndex, stepIndex, lessonIndex);
         
-        if (!lesson?.exercises?.length) {
+        if (!exerciseIds.length) {
           setError("Lesson not found");
           return;
         }
 
-        const fetchedExercises = await fetchExercisesByIds(lesson.exercises);
-        const shuffledExercises = shuffleArray(fetchedExercises);
-        setExercises(shuffledExercises);
-
-        // Prepare first exercise
-        const firstData = await prepareExerciseData(shuffledExercises[0]);
+        // Fetch all exercises first
+        const fetchedExercises = await fetchExercisesByIds(exerciseIds);
         
-        if (!cancelled) {
-          setCurrentData(firstData);
+        if (!fetchedExercises.length) {
+          setError("No exercises found");
+          return;
+        }
+
+        // Prepare first exercise immediately for fast start
+        const firstExerciseData = await prepareExerciseData(fetchedExercises[0]);
+        setAllExerciseData([firstExerciseData]);
+        setLoading(false);
+
+        // Load remaining exercises in background
+        if (fetchedExercises.length > 1) {
+          for (let i = 1; i < fetchedExercises.length; i++) {
+            const exerciseData = await prepareExerciseData(fetchedExercises[i]);
+            setAllExerciseData(prev => [...prev, exerciseData]);
+          }
         }
         
       } catch (err) {
         setError("Failed to load lesson");
-      } finally {
         setLoading(false);
       }
     };
 
     loadLesson();
-    
-    return () => {
-      cancelled = true;
-    };
-  }, [unitIndex, stepIndex, lessonIndex, unitsLoading]);
+  }, [unitIndex, stepIndex, lessonIndex, units, unitsLoading, getShuffledExerciseIds]);
 
   const handleComplete = (correct: boolean) => {
     setScore(prev => ({ correct: prev.correct + (correct ? 1 : 0), total: prev.total + 1 }));
   };
 
-  const handleNext = async () => {
-    if (currentIndex < exercises.length - 1) {
-      // Clear current data first to prevent mismatch
-      setCurrentData(null);
-      
-      const nextIndex = currentIndex + 1;
-      setCurrentIndex(nextIndex);
-      
-      const nextData = await prepareExerciseData(exercises[nextIndex]);
-      setCurrentData(nextData);
+  const handleNext = () => {
+    if (currentIndex < allExerciseData.length - 1) {
+      setCurrentIndex(currentIndex + 1);
     } else {
       setComplete(true);
     }
   };
 
   const handleRetry = async () => {
-    // Clear current data first to prevent mismatch
-    setCurrentData(null);
     setCurrentIndex(0);
     setScore({ correct: 0, total: 0 });
     setComplete(false);
     
-    const shuffled = shuffleArray(exercises);
-    setExercises(shuffled);
-    
-    const firstData = await prepareExerciseData(shuffled[0]);
-    setCurrentData(firstData);
+    // Simply shuffle the existing data
+    const shuffled = shuffleArray(allExerciseData);
+    setAllExerciseData(shuffled);
   };
 
   if (loading) {
@@ -172,41 +163,42 @@ export default function LessonPage() {
     );
   }
 
-  if (!currentData) {
-    return (
-      <Screen>
-        <Container className="py-8 text-center">
-          <Text variant="h2">Loading Exercise...</Text>
-        </Container>
-      </Screen>
-    );
-  }
-
   return (
     <Screen>
       <Container className="py-4">
+        {/* Progress bar - always stays visible */}
         <div className="mb-6">
           <div className="flex items-center justify-center mb-2">
             <Text variant="body" color="secondary">
-              {currentIndex + 1} of {exercises.length}
+              {currentIndex + 1} of {allExerciseData.length}
             </Text>
           </div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
             <div
-              className="bg-green-500 h-2 rounded-full transition-all duration-300"
-              style={{ width: `${(currentIndex / exercises.length) * 100}%` }}
+              className="bg-green-500 h-2 rounded-full transition-all duration-500 ease-out"
+              style={{ 
+                width: `${
+                  allExerciseData.length > 0 
+                    ? (6.25 + (currentIndex / allExerciseData.length) * 93.75) // Start at 1/16, fill by current exercise
+                    : 6.25
+                }%` 
+              }}
             />
           </div>
         </div>
 
-        <ExerciseRenderer
-          exercise={currentData.exercise}
-          solutionWords={currentData.solutionWords}
-          distractorWords={currentData.distractorWords}
-          onComplete={handleComplete}
-          onNext={handleNext}
-        />
+        {/* Exercise content */}
+        {allExerciseData[currentIndex] && (
+          <ExerciseRenderer
+            exercise={allExerciseData[currentIndex].exercise}
+            solutionWords={allExerciseData[currentIndex].solutionWords}
+            distractorWords={allExerciseData[currentIndex].distractorWords}
+            onComplete={handleComplete}
+            onNext={handleNext}
+          />
+        )}
 
+        {/* Score - always stays visible */}
         <div className="mt-6 text-center">
           <Text variant="small" color="muted">
             Score: {score.correct}/{score.total}

@@ -117,20 +117,39 @@ export async function fetchDistractorWords(
       });
     }
 
-    // Shuffle and take only the needed count
-    const shuffled = filteredWords.sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, count);
+    // Use deterministic shuffle based on solution word IDs for consistency
+    const seed = solutionWords.map(w => w.id).sort().join('-');
+    const shuffled = shuffleArray(filteredWords, seed);
+    // Filter out any undefined/null values before returning
+    return shuffled.filter(word => word != null).slice(0, count);
   } catch (error) {
     console.error('Failed to fetch distractor words:', error);
     throw error;
   }
 }
 
-// Shuffle array helper
-export function shuffleArray<T>(array: T[]): T[] {
+// Simple seeded random function for consistent results
+function seededRandom(seed: string): () => number {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    const char = seed.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  
+  return function() {
+    hash = (hash * 9301 + 49297) % 233280;
+    return hash / 233280;
+  };
+}
+
+// Shuffle array helper with optional seed for deterministic results
+export function shuffleArray<T>(array: T[], seed?: string): T[] {
   const shuffled = [...array];
+  const random = seed ? seededRandom(seed) : Math.random;
+  
   for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;

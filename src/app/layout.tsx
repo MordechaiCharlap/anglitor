@@ -5,6 +5,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { UserProvider } from "@/contexts/UserContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { UnitsProvider } from "@/contexts/UnitsContext";
+import { ExerciseProvider } from "@/contexts/ExerciseContext";
 import { LayoutWrapper } from "@/components";
 
 const geistSans = Geist({
@@ -36,9 +37,11 @@ export default function RootLayout({
           <AuthProvider>
             <UserProvider>
               <UnitsProvider>
-                <LayoutWrapper>
-                  {children}
-                </LayoutWrapper>
+                <ExerciseProvider>
+                  <LayoutWrapper>
+                    {children}
+                  </LayoutWrapper>
+                </ExerciseProvider>
               </UnitsProvider>
             </UserProvider>
           </AuthProvider>
