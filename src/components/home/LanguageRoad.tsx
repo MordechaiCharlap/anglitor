@@ -6,7 +6,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUnits } from "@/contexts/UnitsContext";
-
+import Link from "next/link";
 interface LanguageRoadProps {
   isCompact?: boolean;
 }
@@ -19,10 +19,24 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
     name: string;
     emoji: string;
     targetElement: HTMLElement;
-    stepData: { id: string; name: string; completedLessons: number; emoji: string; stepIndex: number; lessons: Array<{id: string; title: string | null; lessonIndex: number; exercises: string[]}> };
+    stepData: {
+      id: string;
+      name: string;
+      completedLessons: number;
+      emoji: string;
+      stepIndex: number;
+      lessons: Array<{
+        id: string;
+        title: string | null;
+        lessonIndex: number;
+        exercises: string[];
+      }>;
+    };
   } | null>(null);
-  const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
-
+  const [popupPosition, setPopupPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   useEffect(() => {
     if (!selectedStep) {
@@ -39,32 +53,52 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
     };
 
     updatePosition();
-    
+
     const handleScroll = () => updatePosition();
     const handleResize = () => updatePosition();
-    
-    window.addEventListener('scroll', handleScroll, true);
-    window.addEventListener('resize', handleResize);
-    
+
+    window.addEventListener("scroll", handleScroll, true);
+    window.addEventListener("resize", handleResize);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll, true);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", handleResize);
     };
   }, [selectedStep]);
 
-  const handleStepClick = (event: React.MouseEvent, step: { id: string; name: string; completedLessons: number; emoji: string; stepIndex: number; lessons: Array<{id: string; title: string | null; lessonIndex: number; exercises: string[]}> }, unitIndex: number) => {
+  const handleStepClick = (
+    event: React.MouseEvent,
+    step: {
+      id: string;
+      name: string;
+      completedLessons: number;
+      emoji: string;
+      stepIndex: number;
+      lessons: Array<{
+        id: string;
+        title: string | null;
+        lessonIndex: number;
+        exercises: string[];
+      }>;
+    },
+    unitIndex: number
+  ) => {
     event.stopPropagation();
-    
+
     // If step has lessons, navigate to the first lesson using 1-based indices
     if (step.lessons && step.lessons.length > 0) {
       const firstLesson = step.lessons[0];
       if (firstLesson.exercises && firstLesson.exercises.length > 0) {
         // Convert to 1-based for URL (unitIndex+1, stepIndex+1, lessonIndex+1)
-        router.push(`/lesson/${unitIndex + 1}/${step.stepIndex + 1}/${firstLesson.lessonIndex + 1}`);
+        router.push(
+          `/lesson/${unitIndex + 1}/${step.stepIndex + 1}/${
+            firstLesson.lessonIndex + 1
+          }`
+        );
         return;
       }
     }
-    
+
     // Otherwise, show step popup (fallback for steps without lessons)
     if (selectedStep && selectedStep.name === step.name) {
       setSelectedStep(null);
@@ -81,7 +115,9 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
   if (loading) {
     return (
       <div className="h-full flex items-center justify-center">
-        <Text variant="body" color="muted">Loading units...</Text>
+        <Text variant="body" color="muted">
+          Loading units...
+        </Text>
       </div>
     );
   }
@@ -89,52 +125,53 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
   if (error) {
     return (
       <div className="h-full flex items-center justify-center">
-        <Text variant="body" color="muted">Failed to load units. Please try again.</Text>
+        <Text variant="body" color="muted">
+          Failed to load units. Please try again.
+        </Text>
       </div>
     );
   }
 
-  if (isCompact) {
-    // Compact version for mobile - card format
-    return (
-      <Link href="/language-road">
-        <Card className="cursor-pointer hover:shadow-lg transition-shadow">
-          <div className="text-center p-4">
-            <Text
-              variant="h3"
-              className="mb-2 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent"
-            >
-              🌈 Language Adventure
-            </Text>
-            <Text variant="small" color="muted" className="mb-4">
-              Your epic English learning journey
-            </Text>
+  // if (isCompact) {
+  //   // Compact version for mobile - card format
+  //   return (
+  //     <Link href="/language-road">
+  //       <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+  //         <div className="text-center p-4">
+  //           <Text
+  //             variant="h3"
+  //             className="mb-2 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent"
+  //           >
+  //             🌈 Language Adventure
+  //           </Text>
+  //           <Text variant="small" color="muted" className="mb-4">
+  //             Your epic English learning journey
+  //           </Text>
 
-            {/* Mini preview */}
-            <div className="flex justify-center gap-2 mb-3">
-              {units.slice(0, 3).map((unit) => (
-                <div
-                  key={unit.id}
-                  className={`w-8 h-8 rounded-full bg-gradient-to-br ${unit.bgGradient} flex items-center justify-center text-white text-sm`}
-                >
-                  {unit.emoji}
-                </div>
-              ))}
-            </div>
+  //           {/* Mini preview */}
+  //           <div className="flex justify-center gap-2 mb-3">
+  //             {units.slice(0, 3).map((unit) => (
+  //               <div
+  //                 key={unit.id}
+  //                 className={`w-8 h-8 rounded-full bg-gradient-to-br ${unit.bgGradient} flex items-center justify-center text-white text-sm`}
+  //               >
+  //                 {unit.emoji}
+  //               </div>
+  //             ))}
+  //           </div>
 
-            <Text variant="caption" color="muted">
-              Tap to start your adventure! →
-            </Text>
-          </div>
-        </Card>
-      </Link>
-    );
-  }
+  //           <Text variant="caption" color="muted">
+  //             Tap to start your adventure! →
+  //           </Text>
+  //         </div>
+  //       </Card>
+  //     </Link>
+  //   );
+  // }
 
   // Full version for desktop sidebar
   return (
     <div className="h-full" onClick={() => setSelectedStep(null)}>
-
       {/* Vertical Road - Compact */}
       <div className="relative" onClick={(e) => e.stopPropagation()}>
         {/* Units - Compact Vertical Layout */}
@@ -145,7 +182,9 @@ export function LanguageRoad({ isCompact = false }: LanguageRoadProps) {
               unit={unit}
               unitIndex={unitIndex}
               totalUnits={units.length}
-              onStepClick={(event, step) => handleStepClick(event, step, unitIndex)}
+              onStepClick={(event, step) =>
+                handleStepClick(event, step, unitIndex)
+              }
               isCompact={isCompact}
             />
           ))}
