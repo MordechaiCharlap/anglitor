@@ -1,6 +1,6 @@
-import { Text, SpeakerButton, SlowSpeakerButton } from "@/components";
+import { Text } from "@/components";
 import { useExerciseStyles } from "@/styles/exerciseStyles";
-
+import { SpeakerButton, SlowSpeakerButton } from "./index";
 interface TextWithAudioPromptProps {
   text: string;
   onPlay: () => void;
@@ -11,13 +11,20 @@ interface AudioOnlyPromptProps {
   onPlaySlow: () => void;
 }
 
-export function TextWithAudioPrompt({ text, onPlay }: TextWithAudioPromptProps) {
+export function TextWithAudioPrompt({
+  text,
+  onPlay,
+}: TextWithAudioPromptProps) {
   const styles = useExerciseStyles();
-  
+
   return (
     <div className="flex items-center gap-4">
       <div className={`flex-[3] p-6 ${styles.textCard}`}>
-        <Text variant="h3" color="primary" className="font-semibold text-xl text-center">
+        <Text
+          variant="h3"
+          color="primary"
+          className="font-semibold text-xl text-center"
+        >
           {text}
         </Text>
       </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { ExerciseContainer } from "./ExerciseContainer";
-import { TextWithAudioPrompt } from "./TextWithAudioPrompt";
+import { TextWithAudioPrompt, AudioOnlyPrompt } from "./PromptSections";
 import { Word, Exercise, Language } from "./types";
 import { speakEnglish } from "@/lib/voice";
 
@@ -104,10 +104,9 @@ export function ExerciseRenderer({
           needsCapitalization: true,
           autoPlay: () => speakEnglish(exercise.sentence, exercise.voice),
           promptSection: (
-            <TextWithAudioPrompt
-              text={exercise.sentence}
+            <AudioOnlyPrompt
               onPlay={() => speakEnglish(exercise.sentence, exercise.voice)}
-              hideText
+              onPlaySlow={() => speakEnglish(exercise.sentence, exercise.voice)}
             />
           ),
         };
@@ -119,10 +118,9 @@ export function ExerciseRenderer({
           needsCapitalization: false,
           autoPlay: () => speakEnglish(exercise.sentence, exercise.voice),
           promptSection: (
-            <TextWithAudioPrompt
-              text={exercise.sentence}
+            <AudioOnlyPrompt
               onPlay={() => speakEnglish(exercise.sentence, exercise.voice)}
-              hideText
+              onPlaySlow={() => speakEnglish(exercise.sentence, exercise.voice)}
             />
           ),
           checkAnswerLogic: (selectedText: string, solutions: string[]) =>
